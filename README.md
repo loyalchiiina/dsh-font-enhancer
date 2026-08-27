@@ -159,6 +159,16 @@ dsh-font-enhancer/
 
 ---
 
+## 支持 Support
+
+发现 bug 或有功能建议？欢迎在
+[GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues) 提 issue。
+
+Found a bug or have an idea? Open an issue at
+[GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues).
+
+---
+
 ## License
 
 MIT

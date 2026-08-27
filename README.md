@@ -2,6 +2,10 @@
 
 > 按区域分别设置 DSH 界面字体、字号、颜色，支持统一控制、主题保存/切换、随机配色/字体。
 
+![npm](https://img.shields.io/npm/v/dsh-font-enhancer)
+![license](https://img.shields.io/github/license/loyalchiiina/dsh-font-enhancer)
+![dsh](https://img.shields.io/badge/DSH-Plugin-8A2BE2)
+
 A DSH (DeepSeek Harness) plugin that lets you style the UI **per-region** — each
 region (sidebar, message area, input box, code block, etc.) gets its own
 Chinese/English font, font-size, line-height, weight, italic, and text color.
@@ -83,6 +87,24 @@ Or copy the folder into `node_modules/` and add the package name to the profile
 ### 插件卡顿 Plugin stuck?
 - Click the DSH "重载" (Reload) button, or
 - Click the **Aa** floating button to collapse it — this triggers a full plugin rebuild.
+
+---
+
+## 快速上手 Quick start
+
+**想给所有消息区域换一种字体/颜色？**
+1. 点右下角 **Aa** 按钮打开面板。
+2. 在 **全局统一** 区勾选 **统一字体** → 选中文/英文字体 → 所有区域立即统一。
+3. 勾选 **统一颜色** → 点色块选色 → 所有区域统一变色。
+
+**想单独设置 输入框 的字号？**
+1. 打开面板 → 找到「输入区」卡片 → 勾选它的复选框（展开设置）。
+2. 右侧列改 **字号** / **字重**，左侧列改中/英文字体。
+
+**想存一套配色以后换着用？**
+1. 调好各区域字体、颜色。
+2. 在顶部输入框填名字 → 点 **💾存**。
+3. 之后随时在下拉框选中 → 点 **应用** 切换。
 
 ---
 

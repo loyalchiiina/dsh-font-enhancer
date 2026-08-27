@@ -1,0 +1,8 @@
+# Explicit npm ignore in addition to "files" whitelist.
+node_modules/
+*.tgz
+.DS_Store
+.git/
+.hg/
+.svn/
+*.log

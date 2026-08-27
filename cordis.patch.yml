@@ -1,0 +1,6 @@
+# dsh-font-enhancer — global Chinese/English font, size and line-height picker.
+# Pure client-side plugin: it injects a floating font panel and a global
+# stylesheet. No host services are required.
+- insert:
+    - id: dsh-font-enhancer
+      name: dsh-font-enhancer

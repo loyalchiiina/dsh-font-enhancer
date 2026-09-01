@@ -12,18 +12,13 @@ Chinese/English font, font-size, line-height, weight, italic, and text color.
 Features **unified** global font/color overrides, **theme** save/switch, **框选
 (pick-region)** element selection, and **random** font/color generators.
 
-> ⚠️ **当前版本（v1.1.0）仅保证在 DSH **网页端**（浏览器访问 DSH Web GUI，默认
-> `http://127.0.0.1:43120`）正常生效。** 桌面端 Electron 内置窗口的样式适配仍在
-> 开发中（框选标记 `data-fe-reg` 只打在网页渲染的 DOM 上，桌面窗口暂时匹配不到）。
-> 桌面端用户请等待后续版本，或先用 `dsh plugin add dsh-font-enhancer@1.0.0` 回退到
-> 旧版。
+> ✅ **v1.2.0 同时支持 DSH **网页端**（浏览器访问 Web GUI，默认 `http://127.0.0.1:43120`）
+> 和 **桌面端**（Electron 内置窗口）。** 两端均可正常使用框选区域、字体/颜色设置
+> 等全部功能。
 >
-> ⚠️ Current version (v1.1.0) is verified on the DSH **Web GUI** (browser access,
-> default `http://127.0.0.1:43120`) only. Desktop Electron window styling is still
-> in progress — pick-region markers (`data-fe-reg`) are only attached to the DOM
-> rendered in the browser, so the desktop window cannot match them yet. Desktop
-> users should wait for a later release, or fall back with
-> `dsh plugin add dsh-font-enhancer@1.0.0`.
+> ✅ v1.2.0 supports both the DSH **Web GUI** (browser access, default
+> `http://127.0.0.1:43120`) and the **Desktop Electron window**. All features
+> work in both environments.
 
 ---
 
@@ -89,6 +84,7 @@ Or copy the folder into `node_modules/` and add the package name to the profile
 ### 版本 Versions
 | 版本 | 说明 |
 |------|------|
+| `v1.2.0` | **网页端+桌面端双端可用**。修复桌面端 Electron 窗口浮球不可见问题。 |
 | `v1.1.0` | 增强版：新增框选区域（pick-region）+ 采集调试 + 随机配色。**仅网页端可用**。 |
 | `v1.0.0` | 旧版：内置区域样式 + 统一控制 + 主题。相对简单，兼容性更好。 |
 

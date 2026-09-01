@@ -52,5 +52,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   DOM 上，桌面窗口暂时无法匹配。
 - 桌面端用户请先用 `dsh plugin add dsh-font-enhancer@1.0.0` 回退到旧版，或等待后续更新。
 
+## [1.2.0] - 2026-09-01
+
+### Fixed
+- **桌面端 Electron 窗口适配**：修复 DSH Desktop 桌面窗口看不到 Aa 悬浮球的问题。
+  - 根因：`#dsh-fe-root` 容器设置了 `position:relative`，导致内部的 `position:fixed` 子元素
+    （悬浮球+面板）在 Electron 窗口的渲染上下文中定位偏移。
+  - 修复：将 `#dsh-fe-root` 改为 `position:static` + `pointer-events:none`，使子元素的
+    `position:fixed` 真正相对视口定位。
+  - 添加 Electron 环境检测，检测到 Electron 渲染器时自动修正悬浮球/面板位置。
+  - 添加 `parentNode` 守卫，防止 Electron 窗口聚焦时重复挂载。
+
+### Changed
+- 版本号从 1.1.0 升级到 1.2.0。
+
+### 兼容性
+- 现在同时支持 **DSH 网页端（浏览器访问 Web GUI）** 和 **DSH 桌面端（Electron 窗口）**。
+- 移除 README 中的"仅网页端可用"标注，改为"网页端+桌面端双端可用"。
+
+[1.2.0]: https://github.com/loyalchiiina/dsh-font-enhancer/releases/tag/v1.2.0
 [1.1.0]: https://github.com/loyalchiiina/dsh-font-enhancer/releases/tag/v1.1.0
 [1.0.0]: https://github.com/loyalchiiina/dsh-font-enhancer/releases/tag/v1.0.0

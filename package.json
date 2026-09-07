@@ -1,6 +1,6 @@
 {
     "name":  "dsh-font-enhancer",
-    "version":  "1.4.5",
+    "version":  "1.4.6",
     "description":  "DSH 字体样式 DIY 插件（搜「字体」找到我）：按区域自定义中英文字体/字号/字重/斜体/颜色，框选元素创建自定义区域，全局统一控制，主题保存/切换，随机配色，支持自定义字体。DIY your DSH UI fonts \u0026 colors: per-region custom font/size/weight/italic/color, pick elements to create custom regions, unified overrides, theme save/switch, random color, custom fonts.",
     "type":  "module",
     "main":  "lib/index.js",

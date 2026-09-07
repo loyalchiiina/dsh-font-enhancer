@@ -90,6 +90,19 @@ Or copy the folder into `node_modules/` and add the package name to the profile
 
 ---
 
+
+## ⚠️ 安装须知 Install Notice
+
+**发布 24 小时内安装报错？** 这不是插件问题。
+
+DSH 桌面端内置**供应链安全策略**（minimumReleaseAge）：刚发布不到 24 小时的 npm 包会被 pnpm 拒绝安装，防止刚发布的投毒包。报错通常含 `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION` 字样。
+
+- ✅ **解决：等一天再装**，市场安装自然通过
+- ✅ 插件本体没有任何问题，也无需任何配置
+- ✅ 此策略对所有 DSH 插件一视同仁，是全局安全机制
+
+**推荐清单说明**：两个插件的设置页「悬浮球导航」分区会列出推荐插件（字体插件 / 技能浏览器 / 照片显示器），并实时探测显示「已安装 / 未安装」徽标；未安装的插件可点击 Star 前往仓库安装。
+
 ## 用法 Usage
 
 1. Click the floating **Aa** button (bottom-right).

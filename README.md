@@ -2,6 +2,10 @@
 
 > 按区域分别设置 DSH 界面字体、字号、颜色，支持统一控制、主题保存/切换、随机配色/字体。
 
+**DSH 的界面长什么样，你说了算。**
+
+**You decide what DSH looks like.**
+
 ![npm](https://img.shields.io/npm/v/dsh-font-enhancer)
 ![license](https://img.shields.io/github/license/loyalchiiina/dsh-font-enhancer)
 ![dsh](https://img.shields.io/badge/DSH-Plugin-8A2BE2)
@@ -11,6 +15,15 @@ region (sidebar, message area, input box, code block, etc.) gets its own
 Chinese/English font, font-size, line-height, weight, italic, and text color.
 Features **unified** global font/color overrides, **theme** save/switch, **框选
 (pick-region)** element selection, and **random** font/color generators.
+
+![字体区域设置面板](docs/images/font-enhancer-panel.png)
+
+> 右侧「字体区域设置」面板：选择主题 / 保存方案、全局统一（颜色 / 字体 / 字号 / 字重 / 斜体）、框选区域、随机字体 / 随机颜色、刷新，以及按区域展开的独立属性（英文字体 Times New Roman、中文字体 楷体、字号 15、行距 1.6、字重 400 + 文字颜色）。
+> The per-region panel: theme picker and save, unified colour/font/size/weight/italic, pick-region, random font/colour, plus per-region attributes.
+
+**为什么值得装 / Why it's worth it** — 觉得默认字号太小？中文字体不好看？想给整个界面统一换字体就开「全局统一」，想给某个角落单独上色就点「框选区域」在页面上直接框元素（不用记 CSS 选择器）。配色纠结就点「随机配色」生成一套，喜欢就存成主题随时切回来。
+
+Default font too small? Chinese typeface not to your taste? Flip on **Unified** for one font everywhere, or hit **Pick Region** and drag a box right on the live page to style one corner — no CSS selectors needed. Can't decide on colours? **Random Color** generates a palette; save the ones you like as themes.
 
 > ✅ **v1.3.0 同时支持 DSH **网页端**（浏览器访问 Web GUI）和 **桌面端**（Electron 内置窗口）。**
 > 新增**一键下载安装可爱字体**（霞鹜文楷/得意黑/站酷快乐体等，带实时下载进度）、**添加自提供安装包**、

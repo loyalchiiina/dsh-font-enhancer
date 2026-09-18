@@ -36,6 +36,59 @@ Default font too small? Chinese typeface not to your taste? Flip on **Unified** 
 
 ---
 
+## 功能总览 · At a glance（中英对照 / Bilingual）
+
+### 区域样式 · Per-region styling
+
+| 中文 | English |
+|---|---|
+| 15 个预校准区域：左侧栏、Logo、新建会话、任务板、工作区名、设置、消息区、会话标题、输入区、Tabs、轮次指示、Agent/模型名、右侧扩展面板、代码块、底部展开条 | 15 pre-calibrated regions: sidebar, logo, new-session, taskboard, workspace name, settings, messages, session title, composer, tabs, turn indicator, agent/model name, right panel, code blocks, bottom bar |
+| 每区域独立设置：中文字体、英文字体、字号、行距、字重（100–900 滑块）、斜体、文字颜色（取色器） | Per-region controls: Chinese/English font, size, line-height, weight (100–900 slider), italic, text colour (picker) |
+| 勾选区域复选框展开该区域设置面板 | Tick a region's checkbox to expand its settings panel |
+
+### 全局统一与框选 · Unified & pick-region
+
+| 中文 | English |
+|---|---|
+| 「统一颜色」：一个取色器应用到所有启用区域 | **Unified Colour**: one picker applies to all enabled regions |
+| 「统一字体」：一种字体+字号应用到所有启用区域 | **Unified Font**: one family + size applies to all enabled regions |
+| 「框选区域」：在实时页面上拖框直接选中元素，无需记 CSS 选择器 | **Pick Region**: drag a box on the live page to style elements — no CSS selectors needed |
+
+### 主题系统 · Theme system
+
+| 中文 | English |
+|---|---|
+| 保存整套配置为命名主题 | Save the full configuration as a named theme |
+| 应用 / 重命名 / 删除主题 | Apply, rename and delete themes |
+| 主题跨 DSH 重启与插件版本升级保留 | Themes survive restarts and plugin version bumps |
+
+### 随机生成与字体 · Random & fonts
+
+| 中文 | English |
+|---|---|
+| 🎲 随机字体（中/英）与 🎨 随机配色（黄金角高区分度配色） | 🎲 random fonts and 🎨 vivid high-distinction colours (golden-angle stepping) |
+| 一键下载安装可爱字体（霞鹜文楷 / 得意黑 / 站酷快乐体等，带实时进度） | One-click install of cute fonts (LXGW WenKai / Smiley Sans / ZCOOL KuaiLe etc.) with live progress |
+| 添加自提供安装包：选择本地字体文件自动校验并安装 | Add your own font file: pick a local file, auto-verified and installed |
+| 字体列表与 Microsoft Word 一致（Times New Roman、楷体、宋体、微软雅黑…） | Font lists mirror Microsoft Word (Times New Roman, KaiTi, SimSun, Microsoft YaHei…) |
+
+### 三球共享皮肤 · Shared ball skins
+
+| 中文 | English |
+|---|---|
+| 与 dsh-todo-float-ball / dsh-skill-browser 共享同一套 128 款皮肤目录（`window.__DSH_BALL_SKINS`） | Shares the same 128-skin catalogue with dsh-todo-float-ball / dsh-skill-browser (`window.__DSH_BALL_SKINS`) |
+| 任一处切换，三个悬浮球与其面板颜色实时同步 | Switching anywhere syncs all three balls and their panels in real time |
+| 「原版（仅本球）」选项可让字体球单独回到原始暖极光外观 | "Original (this ball only)" keeps the font ball's warm-aurora look |
+
+### 平台与持久化 · Platforms & persistence
+
+| 中文 | English |
+|---|---|
+| 网页端（浏览器访问 Web GUI）与桌面端（Electron 内置窗口）双端可用 | Works on both the Web GUI (browser) and Desktop (Electron) |
+| 全部设置存 localStorage，刷新与重启后保留 | All settings persist in `localStorage`, survive refresh and restart |
+| 纯客户端插件，无宿主服务、无外部依赖、无构建步骤 | Pure client-side plugin: no host services, no external deps, no build step |
+
+---
+
 ## 功能 Features
 
 ### 区域样式 Per-region Styling

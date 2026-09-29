@@ -1,12 +1,13 @@
 {
     "name":  "dsh-font-enhancer",
-    "version": "1.4.12",
+    "version":  "1.4.13",
     "description":  "DSH 界面字体全权 DIY：按区域自定义中英文字体/字号/字重/颜色，框选建区、全局统一、主题保存切换、随机配色、一键装可爱字体。| DIY your DSH UI fonts: per-region font/size/weight/colour, pick-region, unified overrides, themes, random colours, one-click cute fonts.",
     "type":  "module",
     "main":  "lib/index.js",
     "sideEffects":  false,
     "engines":  {
-                    "node":  "\u003e=18"
+                    "node":  "\u003e=18",
+                    "dsh":  "\u003e=0.1.7-rc.1"
                 },
     "exports":  {
                     ".":  "./lib/index.js",
@@ -21,7 +22,7 @@
                   "LICENSE",
                   "lib/orb/*.html",
                   "docs/images/**"
-                ],
+              ],
     "license":  "MIT",
     "keywords":  [
                      "dsh-plugin",
@@ -75,5 +76,13 @@
                                           ],
                                "platform":  "web"
                            }
-            }
+            },
+    "peerDependencies":  {
+                             "@deepseek-ai/cordis":  "^4.0.2",
+                             "@deepseek-ai/dsh":  "\u003e=0.1.7-rc.1"
+                         },
+    "devDependencies":  {
+                            "@deepseek-ai/cordis":  "^4.0.2",
+                            "@deepseek-ai/dsh":  "\u003e=0.1.7-rc.1"
+                        }
 }

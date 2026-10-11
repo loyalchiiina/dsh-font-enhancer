@@ -1,6 +1,6 @@
 {
     "name":  "dsh-font-enhancer",
-    "version":  "1.4.13",
+    "version": "1.5.0",
     "description":  "DSH 界面字体全权 DIY：按区域自定义中英文字体/字号/字重/颜色，框选建区、全局统一、主题保存切换、随机配色、一键装可爱字体。| DIY your DSH UI fonts: per-region font/size/weight/colour, pick-region, unified overrides, themes, random colours, one-click cute fonts.",
     "type":  "module",
     "main":  "lib/index.js",

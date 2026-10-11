@@ -16,9 +16,9 @@ Chinese/English font, font-size, line-height, weight, italic, and text color.
 Features **unified** global font/color overrides, **theme** save/switch, **框选
 (pick-region)** element selection, and **random** font/color generators.
 
-![字体区域设置面板](docs/images/font-enhancer-panel.png)
+![字体DIY悬浮球面板](docs/images/font-enhancer-panel.png)
 
-> 右侧「字体区域设置」面板：选择主题 / 保存方案、全局统一（颜色 / 字体 / 字号 / 字重 / 斜体）、框选区域、随机字体 / 随机颜色、刷新，以及按区域展开的独立属性（英文字体 Times New Roman、中文字体 楷体、字号 15、行距 1.6、字重 400 + 文字颜色）。
+> 右侧「字体DIY悬浮球」面板：选择主题 / 保存方案、全局统一（颜色 / 字体 / 字号 / 字重 / 斜体）、框选区域、随机字体 / 随机颜色、刷新，以及按区域展开的独立属性（英文字体 Times New Roman、中文字体 楷体、字号 15、行距 1.6、字重 400 + 文字颜色）。
 > The per-region panel: theme picker and save, unified colour/font/size/weight/italic, pick-region, random font/colour, plus per-region attributes.
 
 **为什么值得装 / Why it's worth it** — 觉得默认字号太小？中文字体不好看？想给整个界面统一换字体就开「全局统一」，想给某个角落单独上色就点「框选区域」在页面上直接框元素（不用记 CSS 选择器）。配色纠结就点「随机配色」生成一套，喜欢就存成主题随时切回来。

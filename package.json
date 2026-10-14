@@ -1,88 +1,99 @@
 {
-    "name":  "dsh-font-enhancer",
-    "version": "1.5.0",
-    "description":  "DSH 界面字体全权 DIY：按区域自定义中英文字体/字号/字重/颜色，框选建区、全局统一、主题保存切换、随机配色、一键装可爱字体。| DIY your DSH UI fonts: per-region font/size/weight/colour, pick-region, unified overrides, themes, random colours, one-click cute fonts.",
-    "type":  "module",
-    "main":  "lib/index.js",
-    "sideEffects":  false,
-    "engines":  {
-                    "node":  "\u003e=18",
-                    "dsh":  "\u003e=0.1.7-rc.1"
-                },
-    "exports":  {
-                    ".":  "./lib/index.js",
-                    "./client":  "./lib/client.js",
-                    "./package.json":  "./package.json"
-                },
-    "files":  [
-                  "lib/**/*.js",
-                  "lib/fonts/*.ttf",
-                  "cordis.patch.yml",
-                  "README.md",
-                  "LICENSE",
-                  "lib/orb/*.html",
-                  "docs/images/**"
-              ],
-    "license":  "MIT",
-    "keywords":  [
-                     "dsh-plugin",
-                     "deepseek-harness",
-                     "font",
-                     "字体",
-                     "typography",
-                     "排版",
-                     "DIY",
-                     "theme",
-                     "主题",
-                     "color",
-                     "颜色",
-                     "ui",
-                     "区域",
-                     "styling",
-                     "样式",
-                     "chinese-font",
-                     "中文字体",
-                     "english-font",
-                     "font-picker",
-                     "font-size",
-                     "字重",
-                     "斜体",
-                     "theme-switch",
-                     "主题切换",
-                     "text-styling",
-                     "文字样式",
-                     "custom-font",
-                     "自定义字体"
-                 ],
-    "repository":  {
-                       "type":  "git",
-                       "url":  "git+https://github.com/loyalchiiina/dsh-font-enhancer.git"
-                   },
-    "homepage":  "https://github.com/loyalchiiina/dsh-font-enhancer#readme",
-    "bugs":  {
-                 "url":  "https://github.com/loyalchiiina/dsh-font-enhancer/issues"
-             },
-    "dsh":  {
-                "bundle":  {
-                               "patch":  "./cordis.patch.yml"
-                           },
-                "client":  {
-                               "inject":  [
-                                              "@deepseek-ai/dsh-client-connection",
-                                              "@deepseek-ai/dsh-client-runtime",
-                                              "@deepseek-ai/dsh-client-ui-settings",
-                                              "@deepseek-ai/dsh-client-ui-slots",
-                                              "@deepseek-ai/dsh-client-locale"
-                                          ],
-                               "platform":  "web"
-                           }
-            },
-    "peerDependencies":  {
-                             "@deepseek-ai/cordis":  "^4.0.2",
-                             "@deepseek-ai/dsh":  "\u003e=0.1.7-rc.1"
-                         },
-    "devDependencies":  {
-                            "@deepseek-ai/cordis":  "^4.0.2",
-                            "@deepseek-ai/dsh":  "\u003e=0.1.7-rc.1"
-                        }
+  "name": "dsh-font-enhancer",
+  "version": "1.5.1",
+  "description": "DSH 界面字体全权 DIY：按区域自定义中英文字体/字号/字重/颜色，框选建区、全局统一、主题保存切换、随机配色、一键装可爱字体。| DIY your DSH UI fonts: per-region font/size/weight/colour, pick-region, unified overrides, themes, random colours, one-click cute fonts.",
+  "type": "module",
+  "main": "lib/index.js",
+  "sideEffects": false,
+  "engines": {
+    "dsh": ">=0.1.7-rc.1",
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "lib/**/*.js",
+    "lib/fonts/*.ttf",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "lib/orb/*.html",
+    "docs/images/**",
+    "locale/*.json",
+    "icon.svg",
+    "README-zh.md",
+    "README-es.md",
+    "README-pt.md",
+    "README-hi.md",
+    "CHANGELOG.md"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "font",
+    "字体",
+    "typography",
+    "排版",
+    "DIY",
+    "theme",
+    "主题",
+    "color",
+    "颜色",
+    "ui",
+    "区域",
+    "styling",
+    "样式",
+    "chinese-font",
+    "中文字体",
+    "english-font",
+    "font-picker",
+    "font-size",
+    "字重",
+    "斜体",
+    "theme-switch",
+    "主题切换",
+    "text-styling",
+    "文字样式",
+    "custom-font",
+    "自定义字体"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loyalchiiina/dsh-font-enhancer.git"
+  },
+  "homepage": "https://github.com/loyalchiiina/dsh-font-enhancer#readme",
+  "bugs": {
+    "url": "https://github.com/loyalchiiina/dsh-font-enhancer/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh": ">=0.1.7-rc.1"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh": ">=0.1.7-rc.1"
+  },
+  "packageManager": "pnpm@11.7.0"
 }

@@ -1,45 +1,77 @@
-# Font Enhancer
+# dsh-font-enhancer
 
-> Swap the chat typeface, tune size and line height, and apply a bundled font set without touching DSH stylesheets.
+> Personaliza, por región, la tipografía de la interfaz de DSH: fuente, tamaño, interlineado, grosor, cursiva y color. Incluye creación de regiones por selección en pantalla, estilos unificados, temas guardados, paletas aleatorias, instalación de 8 fuentes "cute" con un clic y un catálogo de 128 skins compartido con las otras dos bolas flotantes.
 
-> Full documentation: [English README](./README.md)
+> Documentación completa: [README en inglés](./README.md) · [中文速查](./README-zh.md)
 
-## 功能总览 · At a glance（中英对照 / Bilingual）
+## De un vistazo
 
-> 📖 [Leer esta sección en el README principal](./README.md#功能总览-at-a-glance中英对照-bilingual)
+| Capacidad | Detalle |
+|---|---|
+| Ajustes por región | **10** regiones integradas; cada una con fuente china/inglesa, tamaño, interlineado, grosor (100–900), cursiva y color |
+| Selección de región | Haz clic en elementos de la página en vivo y crea tu propia región — sin escribir selectores CSS |
+| Unificado | Tres interruptores (color / fuente / cursiva) que se aplican a todas las regiones activas |
+| Temas | Guarda toda la configuración como tema con nombre; aplica, renombra, elimina |
+| Aleatorio | 🎲 fuente aleatoria, 🎨 paleta aleatoria (paso de ángulo áureo) |
+| Instalación de fuentes | **8** fuentes "cute" con un clic (con progreso); también puedes subir tu .ttf/.otf |
+| Skins | **128** skins compartidas con dsh-todo-float-ball y dsh-skill-browser, sincronizadas en tiempo real |
+| Persistencia | localStorage + respaldo en `settings.json` del host; sobrevive a refrescos, reinicios y actualizaciones |
+| Plataformas | Web GUI de DSH y escritorio (Electron) |
 
-## 功能 Features
+## Las 10 regiones integradas
 
-> 📖 [Leer esta sección en el README principal](./README.md#功能-features)
+Todas se localizan mediante atributos estables **`data-slot`**, inmunes a los cambios de las clases hash de CSS-Modules.
 
-## 安装 Install
+1. Barra lateral · 2. Área de chat · 3. Cabecera del chat · 4. Área de entrada · 5. Progreso de todo ·
+6. Espacio de trabajo · 7. Información del chat · 8. Marca/Logo · 9. Barra lateral inferior izquierda · 10. Barra inferior de información del chat (nueva en v1.5.2)
 
-> 📖 [Leer esta sección en el README principal](./README.md#安装-install)
+## Fuentes
 
-## 用法 Usage
+- **18 chinas** · **18 inglesas** · **8 instalables con un clic** (LXGW WenKai, Smiley Sans, ZCOOL KuaiLe, Comic Neue, Baloo 2, Fredoka, Nunito, Caveat)
+- Por defecto: inglés Times New Roman, chino 楷体
 
-> 📖 [Leer esta sección en el README principal](./README.md#用法-usage)
+## Skins (128, compartidas por las tres bolas)
 
-## 快速上手 Quick start
+招牌特效 28 · 浓郁深底 38 · 尘埃灰调 20 · 柔光深底 15 · 中性点缀 10 · 浅色纸面 17
 
-> 📖 [Leer esta sección en el README principal](./README.md#快速上手-quick-start)
+## Cómo usar el panel
 
-## 原理 How it works
+1. Pulsa la bola **Aa** (abajo a la derecha)
+2. Arriba: selector de tema + nombre + **💾 Guardar** / **Aplicar** / ✏ Renombrar / ✕ Borrar
+3. Centro: los tres interruptores de **Unificado** + **🖱 Seleccionar región** + **🎲 Fuente aleatoria** + **🎨 Color aleatorio** + **🔄 Refrescar**
+4. Abajo: una tarjeta por región — marca la casilla, fuentes a la izquierda, tamaño/grosor/cursiva/color a la derecha
+5. Al final: instalación de fuentes "cute" + añadir tu propio archivo de fuente
 
-> 📖 [Leer esta sección en el README principal](./README.md#原理-how-it-works)
+## Instalación
 
-## 常见问题 FAQ
+```bash
+dsh plugin --profile desktop add dsh-font-enhancer
+```
 
-> 📖 [Leer esta sección en el README principal](./README.md#常见问题-faq)
+O busca "字体" en el mercado de plugins.
 
-## 文件结构 File structure
+**Error conocido**: si aparece `minimumReleaseAge` o `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`, no está roto: DSH aplica una ventana de seguridad de 24 h a los paquetes npm recién publicados. Espera un día y vuelve a intentarlo.
 
-> 📖 [Leer esta sección en el README principal](./README.md#文件结构-file-structure)
+## Dónde se guardan los datos
 
-## 支持 Support
+| Ubicación | Contenido |
+|---|---|
+| localStorage | Configuración de regiones, temas, estado unificado, skin elegida |
+| `settings.json` del host | Copia de seguridad — `~/.dsh/data/dsh-font-enhancer/settings.json` |
+| Fuentes instaladas | Directorio de fuentes del host, servido en `/dsh-font-enhancer/fonts/*` |
 
-> 📖 [Leer esta sección en el README principal](./README.md#支持-support)
+En escritorio el origen cambia en cada reinicio, así que localStorage puede estar vacío; entonces se restaura desde `settings.json`.
 
-## License
+## Preguntas frecuentes
 
-> 📖 [Leer esta sección en el README principal](./README.md#license)
+**¿El estilo no se aplica?** Pulsa **🔄 Refrescar** en el panel, o el botón "重载" de DSH, o cierra y vuelve a abrir la bola.
+
+**¿Instalé la fuente pero no aparece en la lista?** En escritorio pulsa 🔄 Refrescar; en web, F5.
+
+**¿El interruptor Unificado está activo y lo aleatorio no hace nada?** Con unificado activo, lo aleatorio cambia el valor unificado, no cada región — es el comportamiento diseñado.
+
+**¿La región creada por selección desaparece tras reiniciar?** Corregido en v1.5.2. Si aún falla, usa **🖱 Resaltar** para ver cuántos elementos coinciden; "ningún elemento coincidente" significa que la estructura del frontend de DSH cambió y hay que volver a seleccionar.
+
+## Licencia
+
+MIT · [GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues)

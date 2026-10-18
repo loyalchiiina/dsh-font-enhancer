@@ -1,232 +1,360 @@
 # dsh-font-enhancer
 
-> 按区域分别设置 DSH 界面字体、字号、颜色，支持统一控制、主题保存/切换、随机配色/字体。
+> 按区域自定义 DSH 界面字体、字号、行距、字重、斜体与文字颜色；支持框选建区、全局统一、主题保存切换、随机配色、一键安装可爱字体，并与另外两个悬浮球共享 128 款皮肤。
 
-**DSH 的界面长什么样，你说了算。**
+> DIY your DSH UI typography **per region** — font family, size, line-height, weight, italic
+> and colour, plus box-select region creation, unified overrides, themes, random
+> generation, one-click cute-font install, and a 128-skin catalogue shared with the
+> other two floating balls.
 
-**You decide what DSH looks like.**
+**DSH 的界面长什么样，你说了算。** / **You decide what DSH looks like.**
 
 ![npm](https://img.shields.io/npm/v/dsh-font-enhancer)
 ![license](https://img.shields.io/github/license/loyalchiiina/dsh-font-enhancer)
 ![dsh](https://img.shields.io/badge/DSH-Plugin-8A2BE2)
 
-A DSH (DeepSeek Harness) plugin that lets you style the UI **per-region** — each
-region (sidebar, message area, input box, code block, etc.) gets its own
-Chinese/English font, font-size, line-height, weight, italic, and text color.
-Features **unified** global font/color overrides, **theme** save/switch, **框选
-(pick-region)** element selection, and **random** font/color generators.
-
 ![字体DIY悬浮球面板](docs/images/font-enhancer-panel.png)
 
-> 右侧「字体DIY悬浮球」面板：选择主题 / 保存方案、全局统一（颜色 / 字体 / 字号 / 字重 / 斜体）、框选区域、随机字体 / 随机颜色、刷新，以及按区域展开的独立属性（英文字体 Times New Roman、中文字体 楷体、字号 15、行距 1.6、字重 400 + 文字颜色）。
-> The per-region panel: theme picker and save, unified colour/font/size/weight/italic, pick-region, random font/colour, plus per-region attributes.
-
-**为什么值得装 / Why it's worth it** — 觉得默认字号太小？中文字体不好看？想给整个界面统一换字体就开「全局统一」，想给某个角落单独上色就点「框选区域」在页面上直接框元素（不用记 CSS 选择器）。配色纠结就点「随机配色」生成一套，喜欢就存成主题随时切回来。
-
-Default font too small? Chinese typeface not to your taste? Flip on **Unified** for one font everywhere, or hit **Pick Region** and drag a box right on the live page to style one corner — no CSS selectors needed. Can't decide on colours? **Random Color** generates a palette; save the ones you like as themes.
-
-> ✅ **v1.3.0 同时支持 DSH **网页端**（浏览器访问 Web GUI）和 **桌面端**（Electron 内置窗口）。**
-> 新增**一键下载安装可爱字体**（霞鹜文楷/得意黑/站酷快乐体等，带实时下载进度）、**添加自提供安装包**、
-> **🔄 刷新按钮**、保存方案记住统一状态等功能。搜「字体」即可在插件市场找到本插件。
+> 面板实拍：顶部主题选择与保存、全局统一（颜色 / 字体 / 字号 / 字重 / 斜体）、框选区域 / 随机字体 / 随机颜色、框选取代默认 / 恢复默认区域 / 刷新，以及每个区域展开后的独立属性（英文字体、中文字体、字号、行距、字重滑块、斜体、文字颜色）。
 >
-> ✅ v1.3.0 supports both the DSH **Web GUI** (browser) and the **Desktop Electron window**.
-> New: one-click install of cute fonts (LXGW WenKai / Smiley Sans / ZCOOL KuaiLe etc. with live
-> download progress), add your own font file, refresh button, themes remember unified overrides.
-> Search "font / 字体" on the plugin market to find it.
+> The live panel: theme picker, unified colour/font/size/weight/italic, pick-region / random font / random colour, replace-defaults / restore-defaults / refresh, and each region's expanded attributes (English and Chinese font, size, line-height, weight slider, italic, text colour).
 
 ---
 
-## 功能总览 · At a glance（中英对照 / Bilingual）
+## 目录 Table of contents
 
-### 区域样式 · Per-region styling
-
-| 中文 | English |
-|---|---|
-| 15 个预校准区域：左侧栏、Logo、新建会话、任务板、工作区名、设置、消息区、会话标题、输入区、Tabs、轮次指示、Agent/模型名、右侧扩展面板、代码块、底部展开条 | 15 pre-calibrated regions: sidebar, logo, new-session, taskboard, workspace name, settings, messages, session title, composer, tabs, turn indicator, agent/model name, right panel, code blocks, bottom bar |
-| 每区域独立设置：中文字体、英文字体、字号、行距、字重（100–900 滑块）、斜体、文字颜色（取色器） | Per-region controls: Chinese/English font, size, line-height, weight (100–900 slider), italic, text colour (picker) |
-| 勾选区域复选框展开该区域设置面板 | Tick a region's checkbox to expand its settings panel |
-
-### 全局统一与框选 · Unified & pick-region
-
-| 中文 | English |
-|---|---|
-| 「统一颜色」：一个取色器应用到所有启用区域 | **Unified Colour**: one picker applies to all enabled regions |
-| 「统一字体」：一种字体+字号应用到所有启用区域 | **Unified Font**: one family + size applies to all enabled regions |
-| 「框选区域」：在实时页面上拖框直接选中元素，无需记 CSS 选择器 | **Pick Region**: drag a box on the live page to style elements — no CSS selectors needed |
-
-### 主题系统 · Theme system
-
-| 中文 | English |
-|---|---|
-| 保存整套配置为命名主题 | Save the full configuration as a named theme |
-| 应用 / 重命名 / 删除主题 | Apply, rename and delete themes |
-| 主题跨 DSH 重启与插件版本升级保留 | Themes survive restarts and plugin version bumps |
-
-### 随机生成与字体 · Random & fonts
-
-| 中文 | English |
-|---|---|
-| 🎲 随机字体（中/英）与 🎨 随机配色（黄金角高区分度配色） | 🎲 random fonts and 🎨 vivid high-distinction colours (golden-angle stepping) |
-| 一键下载安装可爱字体（霞鹜文楷 / 得意黑 / 站酷快乐体等，带实时进度） | One-click install of cute fonts (LXGW WenKai / Smiley Sans / ZCOOL KuaiLe etc.) with live progress |
-| 添加自提供安装包：选择本地字体文件自动校验并安装 | Add your own font file: pick a local file, auto-verified and installed |
-| 字体列表与 Microsoft Word 一致（Times New Roman、楷体、宋体、微软雅黑…） | Font lists mirror Microsoft Word (Times New Roman, KaiTi, SimSun, Microsoft YaHei…) |
-
-### 三球共享皮肤 · Shared ball skins
-
-| 中文 | English |
-|---|---|
-| 与 dsh-todo-float-ball / dsh-skill-browser 共享同一套 128 款皮肤目录（`window.__DSH_BALL_SKINS`） | Shares the same 128-skin catalogue with dsh-todo-float-ball / dsh-skill-browser (`window.__DSH_BALL_SKINS`) |
-| 任一处切换，三个悬浮球与其面板颜色实时同步 | Switching anywhere syncs all three balls and their panels in real time |
-| 「原版（仅本球）」选项可让字体球单独回到原始暖极光外观 | "Original (this ball only)" keeps the font ball's warm-aurora look |
-
-### 平台与持久化 · Platforms & persistence
-
-| 中文 | English |
-|---|---|
-| 网页端（浏览器访问 Web GUI）与桌面端（Electron 内置窗口）双端可用 | Works on both the Web GUI (browser) and Desktop (Electron) |
-| 全部设置存 localStorage，刷新与重启后保留 | All settings persist in `localStorage`, survive refresh and restart |
-| 纯客户端插件，无宿主服务、无外部依赖、无构建步骤 | Pure client-side plugin: no host services, no external deps, no build step |
+- [它到底能做什么 What it actually does](#它到底能做什么-what-it-actually-does)
+- [功能清单 Feature list](#功能清单-feature-list)
+- [10 个内置区域 The 10 built-in regions](#10-个内置区域-the-10-built-in-regions)
+- [面板怎么用 Using the panel](#面板怎么用-using-the-panel)
+- [框选区域详解 Box-select in detail](#框选区域详解-box-select-in-detail)
+- [字体系统 Font system](#字体系统-font-system)
+- [皮肤系统 Skin system](#皮肤系统-skin-system)
+- [设置页分区 Settings-page section](#设置页分区-settings-page-section)
+- [数据存在哪 Where data lives](#数据存在哪-where-data-lives)
+- [安装 Install](#安装-install)
+- [原理 How it works](#原理-how-it-works)
+- [常见问题 FAQ](#常见问题-faq)
+- [文件结构 File structure](#文件结构-file-structure)
+- [更新日志 Changelog](#更新日志-changelog)
+- [支持 Support](#支持-support)
+- [License](#license)
 
 ---
 
-## 功能 Features
+## 它到底能做什么 What it actually does
 
-### 区域样式 Per-region Styling
-- Pre-calibrated regions covering the DSH **Web GUI** UI:
-  Left sidebar, Logo, New Session, Taskboard entry, Workspace name, Settings,
-  Conversation messages, Session title, Composer/input, Tabs, Turn indicator,
-  Agent/model name, Right extension panel, Code blocks, Bottom expand bar.
-- **Per-region controls**: Chinese font, English font, font-size, line-height,
-  font-weight (100–900 slider), italic toggle, text color with color picker.
-- Each region has a **checkbox** — tick it to expand the settings panel for that region.
+一句话：**给 DSH 界面上的每一块文字单独决定长什么样，并且活过重启。**
 
-### 全局统一 Unified Controls
-- **Unified Color** checkbox: one color picker applies to **all** enabled regions.
-- **Unified Font** checkbox: one font family + size applies to **all** enabled regions.
-- When unified is ON, the randomizer randomizes the unified value (not per-region).
+In one line: **decide how every block of text in the DSH UI looks — independently — and
+have it survive restarts.**
 
-### 🎨 三球共享 128 皮肤 Unified Ball Skins
-- 与 dsh-todo-float-ball / dsh-skill-browser 共享同一套 128 款皮肤目录（`window.__DSH_BALL_SKINS`）。
-- 面板 🎨 按钮或 DSH 设置页任一处切换，三个悬浮球与其展开面板颜色实时同步。
-- 「原版（仅本球）」选项可让字体球单独回到原始暖极光外观，不影响另两球。
+具体做的事（全部来自代码实测，不是设想）：
 
-### 主题系统 Theme System
-- **Save** the current full configuration (all regions' fonts + colors) as a named theme.
-- **Apply** any saved theme to restore its settings.
-- **Rename** themes via the inline input + ✏ button.
-- **Delete** unwanted themes.
-- Themes survive DSH restarts and plugin version bumps.
+| 能力 | 说明 |
+|---|---|
+| 按区域设置 | 内置 10 个预校准区域，每个区域独立设置中文字体 / 英文字体 / 字号 / 行距 / 字重 / 斜体 / 文字颜色 |
+| 框选建区 | 在实时页面上直接点选/框选元素，合并成一个自命名区域，无需写 CSS 选择器 |
+| 全局统一 | 「统一颜色」「统一字体」「统一斜体」三个开关，一次设置套用到所有启用区域 |
+| 主题方案 | 把整套配置存成命名方案，随时应用 / 重命名 / 删除 / 清空 |
+| 随机生成 | 🎲 随机字体、🎨 随机配色（黄金角高区分度取色） |
+| 字体安装 | 8 款可爱字体一键下载安装（带实时进度）；也可上传自己的 .ttf/.otf |
+| 皮肤 | 与 dsh-todo-float-ball / dsh-skill-browser 共享 128 款悬浮球皮肤，三球实时同步 |
+| 持久化 | localStorage 为主、宿主 `settings.json` 为备份，双写回读；跨刷新、跨重启、跨版本升级保留 |
+| 双端 | DSH 网页端（浏览器）与桌面端（Electron）均可用 |
 
-### 随机生成 Random Generation
-- **🎲 Random Font** — randomize Chinese + English font for all (or one) enabled regions.
-- **🎨 Random Color** — randomize vivid, high-distinction colors (golden-angle stepping).
-- Per-region 🎲/🎨 buttons on each card head for single-region random.
+---
 
-### 面板 UI Panel UI
-- Floating **Aa** button (bottom-right, draggable like a pet).
-- **Left-right layout** in card head: checkbox + color dot + name on the left,
-  🎲font/🎨color/⟳reset/✕delete buttons on the right.
-- **Card body** splits into two columns: fonts on the left, size/weight/italic/color
-  on the right.
-- **Toast** notifications (no window.alert) for all save/apply/delete operations.
-- **Reload** the plugin by collapsing the floating button (hide → rebuild).
+## 功能清单 Feature list
 
-### 其他
-- Font lists mirror Microsoft Word (Times New Roman, Arial, Calibri, 楷体, 宋体, 微软雅黑…).
-- Default: English = Times New Roman, Chinese = 楷体 (KaiTi).
-- All settings persist in `localStorage`; survive page refresh and DSH restart.
-- Panel font is fixed to KaiTi (楷体) so it never changes with the plugin's own rules.
+### 1. 区域样式 Per-region styling
+
+每个区域一张卡片。卡片头部左起：**☑ 复选框 + 颜色圆点 + 可编辑的区域名输入框**，右侧 6 个等宽图标按钮（纯图标，中文说明在悬停提示里）：
+
+| 按钮 | 作用 |
+|---|---|
+| ➕ add | 框选更多元素追加到这个区域 |
+| 👁 scope | 高亮显示该区域覆盖的元素范围 |
+| A font | 只随机这个区域的字体 |
+| 💧 color | 只随机这个区域的颜色 |
+| ⟳ reset | 重置这个区域回到默认 |
+| ✕ del | 删除这个区域 |
+
+勾选复选框 → 卡片展开，分左右两列：
+
+- **左列**：中文字体下拉、英文字体下拉
+- **右列**：字号、行距、字重（100–900）、斜体开关、文字颜色取色器
+
+修改立即生效，无需保存按钮。
+
+### 2. 全局统一 Unified overrides
+
+| 开关 | 作用 |
+|---|---|
+| 统一颜色 | 一个取色器应用到**所有启用区域** |
+| 统一字体 | 一种字体 + 字号应用到**所有启用区域** |
+| 统一斜体 | 一个开关应用到**所有启用区域** |
+
+统一开关开启时，随机按钮改变的是「统一值」本身，而不是各区域各自的值——这是设计行为，不是 bug。
+
+### 3. 主题方案 Theme presets
+
+- **保存**：把当前全部区域的完整配置（字体 + 颜色 + 尺寸 + 统一状态）存成一个命名方案
+- **应用**：下拉选中 → 点「应用」一键还原
+- **重命名**：输入新名字 → 点 ✏
+- **删除**：删除选中的单个方案，或「删除所有已保存的主题」清空
+- 方案存在 localStorage，**跨重启与插件版本升级保留**
+
+### 4. 随机生成 Random generation
+
+- **🎲 随机字体**：给所有启用区域随机分配中/英文字体
+- **🎨 随机颜色**：按黄金角步进生成高区分度配色，保证相邻区域颜色不撞
+- 每个区域卡片上还有独立的 🎲 / 🎨 按钮，只作用于该区域
+
+### 5. 字体安装 Font installation
+
+内置 8 款可一键安装的字体（带下载进度条）：
+
+| 字体 | 类型 |
+|---|---|
+| 霞鹜文楷 LXGW WenKai | 中文手写 |
+| 得意黑 Smiley Sans | 中文动感 |
+| 站酷快乐体 ZCOOL KuaiLe | 中文圆润 |
+| Comic Neue | 英文手写（已内置） |
+| Baloo 2 | 英文圆润 |
+| Fredoka | 英文柔和 |
+| Nunito | 英文圆角 |
+| Caveat | 英文手写 |
+
+另外支持「📁 添加自提供安装包」：选本地 `.ttf` / `.otf` 文件 → 自动校验 → 安装并加入字体下拉。
+
+装完字体后在网页端需要 **F5 刷新**才能生效（桌面端无需刷新）。
+
+### 6. 面板 UI Panel UI
+
+- 右下角 **Aa** 悬浮球，可拖动换位置（像桌宠一样）
+- 拖到屏幕外找不到时，设置页有 **🎯 一键恢复悬浮球默认位置**
+- 悬浮球可隐藏/显示（在 DSH 设置页的「悬浮球导航」分区里控制）
+- 所有保存/应用/删除操作走 **toast** 提示，不弹 alert
+- **🔄 刷新** 按钮：重新注入样式，新装的字体立即生效
+- 面板自身字体固定为楷体，避免被插件自己的规则影响
+
+### 7. 采集模式 Recording mode（调试用）
+
+面板上的 **🔴 采集区域** 按钮。开启后，每次框选/加元素都会把被选元素的稳定定位路径（`data-slot` 优先）写入日志文件，方便插件作者校准新区域的默认选择器。日常使用无需开启。
+
+---
+
+## 10 个内置区域 The 10 built-in regions
+
+全部用 **`data-slot` 稳定属性**定位，不受 DSH 前端 CSS-Modules 哈希类名变化影响：
+
+| # | 区域名 | 定位选择器 | 分组 |
+|---|---|---|---|
+| 1 | 左侧栏 | `[data-slot="sidebar"]` | 左侧栏 |
+| 2 | 对话区 | `[data-slot="markdown"], [data-slot="conversation.chat.node"] > div` | 对话区 |
+| 3 | 对话栏上方 | `[data-slot="conversation.session.header"]` | 对话区 |
+| 4 | 输入区 | `[data-slot="conversation.composer"]` | 对话区 |
+| 5 | todo进度 | `[data-slot="conversation.input.dock"]` | 对话区 |
+| 6 | 工作区 | `[data-slot="sidebar.workspaces"]` | 左侧栏 |
+| 7 | 对话信息显示 | `[data-slot="conversation.session.header.utilities"], [data-slot="conversation.session.header.actions"]` | 对话区 |
+| 8 | 品牌标识 | `[data-slot="sidebar.brand.mark"], [data-slot="sidebar.brand.name"]` | 左侧栏 |
+| 9 | 底部左侧边栏 | `[data-slot="sidebar.footer.action"]` | 左侧栏 |
+| 10 | 底部对话信息栏 | `[data-slot="conversation.composer.dock"], [data-slot="conversation.composer.bar"] > div:nth-of-type(1) > div:nth-of-type(2)` | 对话区 |
+
+> 第 10 项「底部对话信息栏」为 v1.5.2 新增。选择器可在卡片中查看与编辑；自己框选的区域追加在内置区域之后。
+
+---
+
+## 面板怎么用 Using the panel
+
+1. 点右下角 **Aa** 悬浮球打开面板
+2. 顶部：主题下拉 + 名称输入框 + **💾 保存配置方案** / **应用选中主题** / ✏ 重命名 / ✕ 删除选中主题
+3. 中部：**全局统一** 三个开关（统一颜色 / 统一字体 / 统一斜体）+ **🖱 框选区域** + **🎲 随机字体** + **🎨 随机颜色** + **🔄 刷新**
+4. 下部：按区域排列的卡片，勾选展开该区域设置
+5. 底部：可爱字体一键安装列表 + 「📁 添加自提供安装包」
+
+### 三个典型场景
+
+**想给整个界面换一种字体？**
+→ 勾选「统一字体」→ 选中文/英文字体 → 全站立即统一。
+
+**只想改输入框的字号？**
+→ 找到「输入区」卡片 → 勾选复选框 → 右列改字号/字重。
+
+**想调一个内置区域没覆盖的地方？**
+→ 点「🖱 框选区域」→ 在页面上点选元素（可多选）→ 起名字 → 确定 → 生成一张新卡片 → 照常调字体/颜色。
+
+---
+
+## 框选区域详解 Box-select in detail
+
+**操作**：点「🖱 框选区域」→ 鼠标移到页面上，可点的元素会显示绿色描边 → 点击选中（可连续多选，面板上实时显示「已选 N 个元素」）→ 输入区域名字 → 确定。
+
+**结果**：生成一个自定义区域卡片，与内置区域完全平权，可调字体/颜色/尺寸，可被主题方案保存。
+
+**定位方式**：插件会为选中元素计算**稳定定位路径**（优先 `data-slot`，其次语义属性，最后才是结构路径），所以 DSH 升级、类名 re-hash 之后依然能命中。
+
+**三个相关操作**：
+
+| 操作 | 作用 |
+|---|---|
+| ➕ 框选更多 | 在已有区域卡片上「框选更多元素追加到这个区域」（`pickAdd`） |
+| 🖱 高亮 | 在页面上高亮显示该区域当前覆盖了哪些元素，并提示「该区域覆盖 N 个元素」（`showScope`） |
+| 框选取代默认 | 删除全部内置区域，只保留你框选的区域（`replacePicked`） |
+| 恢复默认区域 | 删除新增的框选区域，恢复 10 个内置区域（`restoreDefault`） |
+
+**匹配不到时**：卡片会显示「该区域当前未匹配到任何元素（可能已失效）」，提示选择器需要重新校准。
+
+**跨重启存活**：框选区域与内置区域一起保存在 localStorage 与宿主 `settings.json`；v1.5.2 修复了「重启后自定义区域丢失内置区域」的问题。
+
+---
+
+## 字体系统 Font system
+
+- **中文字体 18 款**：楷体、微软雅黑、微软雅黑 Light、宋体、黑体、新宋体、仿宋、等线、等线 Light、华文细黑、华文宋体、华文中宋、华文楷体、华文行楷、隶书、幼圆、方正舒体、方正姚体
+- **英文字体 18 款**：Times New Roman、Arial、Calibri、Cambria、Georgia、Verdana、Tahoma、Segoe UI、Garamond、Book Antiqua、Palatino Linotype、Trebuchet MS、Lucida Sans Unicode、Comic Sans MS、Consolas (mono)、Courier New (mono)、Impact、Bahnschrift
+- 列表与 Microsoft Word 对齐，装的字体如果系统已存在会自动复用
+- 一键安装的 8 款字体会追加到下拉列表里
+- **默认值**：英文 Times New Roman、中文楷体
+
+---
+
+## 皮肤系统 Skin system
+
+字体球的皮肤与 **dsh-todo-float-ball**、**dsh-skill-browser** 共享同一套目录（`window.__DSH_BALL_SKINS`），共 **128 款**：
+
+| 分类 | 数量 |
+|---|---|
+| 招牌特效 | 28 |
+| 浓郁深底 | 38 |
+| 尘埃灰调 | 20 |
+| 柔光深底 | 15 |
+| 中性点缀 | 10 |
+| 浅色纸面 | 17 |
+| **合计** | **128** |
+
+- 任一处切换，三个悬浮球与其展开面板颜色**实时同步**
+- 「原版 · 暖极光（仅本球）」选项可让字体球单独回到原始外观，不影响另两球
+- 切换入口：面板 🎨 按钮，或 DSH 设置页的「悬浮球导航」分区
+
+---
+
+## 设置页分区 Settings-page section
+
+插件在 DSH 设置页注册了一个 **「悬浮球导航」** 分区（走官方 `settings.section` 槽位）：
+
+- 若已安装 **dsh-skill-browser**：本分区自动让位，改由技能浏览器提供更完整的悬浮球导航
+- 若未安装：本分区提供悬浮球显隐开关 + 推荐插件列表（实时显示「已安装 / 未安装」，未安装的可点 ⭐ Star 跳仓库）
+- 分区里还有 **🎯 恢复悬浮球默认位置**
+
+---
+
+## 数据存在哪 Where data lives
+
+| 存储 | 内容 | 位置 |
+|---|---|---|
+| localStorage | 区域配置、主题方案、统一状态、皮肤选择、采集模式开关 | 浏览器/渲染进程 |
+| 宿主 settings.json | 同一份配置的备份 | `~/.dsh/data/dsh-font-enhancer/settings.json` |
+| 已安装字体 | 下载/上传的字体文件 | 宿主字体目录，通过 `/dsh-font-enhancer/fonts/*` 提供 |
+
+采用 **双写 + 回读**：桌面端每次重启 origin 会变，localStorage 可能是空的，此时从宿主 `settings.json` 回读恢复。
+
+> 桌面端动态端口曾导致 localStorage 按 origin 隔离、配置"丢失"——这是 issue #1 的成因，现已由双写回读机制兜底。
 
 ---
 
 ## 安装 Install
 
 ```bash
-# From the DSH profile directory:
-dsh plugin --profile desktop add ./dsh-font-enhancer
+# 从 DSH profile 目录：
+dsh plugin --profile desktop add dsh-font-enhancer
 ```
 
-Or copy the folder into `node_modules/` and add the package name to the profile
-`bundles` list, then restart DSH.
+或从插件市场搜「字体 / font-enhancer」安装。
 
 ### Requirements
-- DSH Desktop 2.0+ (tested on `0.1.0-rc.6`).
-- **本版本仅验证 DSH 网页端（浏览器访问 Web GUI）**；桌面端窗口适配见顶部 ⚠️ 说明。
 
-### 版本 Versions
-| 版本 | 说明 |
-|------|------|
-| `v1.3.0` | **最新**：网页端+桌面端双端可用。一键下载安装可爱字体（带进度）、添加自提供安装包、刷新按钮、保存方案记住统一状态、字重斜体。搜「字体」可找到。 |
-| `v1.0.0` | 旧版：内置区域样式 + 统一控制 + 主题。 |
+- DSH 桌面端 2.0+，或 DSH 网页端
+- Node ^22.19.0 或 >=24.0.0（宿主侧）
 
----
+### 已知安装报错
 
-## 用法 Usage
+若报错含 `minimumReleaseAge` 或 `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`：
 
-1. Click the floating **Aa** button (bottom-right).
-2. **Tick** a region's checkbox → the settings panel expands below.
-3. Adjust Chinese/English font, size, line-height, weight, italic, and color.
-4. Use **统一颜色** / **统一字体** to apply a single setting to all regions.
-5. Save your configuration as a **theme** (type a name, click 💾存).
-6. Switch themes anytime via the dropdown + **应用** button.
-7. Use **🎲 随机字体** / **🎨 随机颜色** for quick experimentation.
-
-### 插件卡顿 Plugin stuck?
-- Click the DSH "重载" (Reload) button, or
-- Click the **Aa** floating button to collapse it — this triggers a full plugin rebuild.
-
----
-
-## 快速上手 Quick start
-
-**想给所有消息区域换一种字体/颜色？**
-1. 点右下角 **Aa** 按钮打开面板。
-2. 在 **全局统一** 区勾选 **统一字体** → 选中文/英文字体 → 所有区域立即统一。
-3. 勾选 **统一颜色** → 点色块选色 → 所有区域统一变色。
-
-**想单独设置 输入框 的字号？**
-1. 打开面板 → 找到「输入区」卡片 → 勾选它的复选框（展开设置）。
-2. 右侧列改 **字号** / **字重**，左侧列改中/英文字体。
-
-**想存一套配色以后换着用？**
-1. 调好各区域字体、颜色。
-2. 在顶部输入框填名字 → 点 **💾存**。
-3. 之后随时在下拉框选中 → 点 **应用** 切换。
+**这不是插件坏了。** 是 DSH 对刚发布 npm 包的 24 小时安全观察期（防投毒）。等一天再装即可通过，插件本体没有任何问题。作者连发多版时窗口期会顺延。
 
 ---
 
 ## 原理 How it works
 
-Pure **client-side** plugin. `lib/client.js` is a `__ModuleLoader__` bundle that:
-1. Injects a `<style>` tag with CSS rules per enabled region.
-2. Renders a floating control panel (vanilla JS, no framework).
-3. Uses `localStorage` for persistence with a `SCHEMA_VERSION` sentinel.
-4. `lib/index.js` is a minimal Cordis module so the bundle loads at all.
+**纯客户端插件**，无框架、无构建步骤。
 
-No host services, no external dependencies, no build step.
+**宿主侧**（`lib/index.js`，269 行）：`inject = ["webServer"]`，注册 9 条 loopback-only 路由：
+
+| 路由 | 作用 |
+|---|---|
+| `/dsh-font-enhancer/health` | 健康检查 |
+| `/dsh-font-enhancer/get` | 读取 settings.json |
+| `/dsh-font-enhancer/set` | 写入 settings.json |
+| `/dsh-font-enhancer/client-alive` | 客户端存活上报 |
+| `/dsh-font-enhancer/log` | 客户端日志落盘 |
+| `/dsh-font-enhancer/fonts/*` | 提供已安装字体文件 |
+| `/dsh-font-enhancer/install-font` | 下载并安装内置字体 |
+| `/dsh-font-enhancer/font-progress` | 查询下载进度 |
+| `/dsh-font-enhancer/upload-font` | 接收上传的 .ttf/.otf |
+
+**客户端**（`lib/client.js`，2626 行，`__ModuleLoader__` bundle）：
+
+1. 生成 `<style>` 注入按区域的 CSS 规则
+2. 用原生 DOM 渲染悬浮球与面板（无框架）
+3. `MutationObserver` 监听 DOM 变化，框选区域的选择器失效时自动修复
+4. localStorage 与宿主 API 双写
+5. 皮肤：读取共享的 `window.__DSH_BALL_SKINS`，通过 `#dsh-fe-skin-style` 后置 `<style>` 覆盖（每条声明加 `!important` 赢得层叠）
+6. 设置页分区：`ctx.slots.inject("settings.section", ...)` 注册
+
+**CSS 定位策略**：内置区域**全部用 `data-slot` 稳定属性**，不用 CSS-Modules 哈希类名（如 `.mMKm6W_*`），避免 DSH 升级后失效。
 
 ---
 
 ## 常见问题 FAQ
 
-### 插件卡住了 / 样式不生效？
-- 点击 DSH 左下角 **重载** 按钮。
-- 或点击右下角 **Aa** 悬浮球使其折叠——折叠时会自动重建插件（删除旧注入样式并重新初始化）。
+### 样式不生效 / 插件卡住？
 
-### 区域颜色互相串色 / 某区域颜色不对？
-- 检查该区域是否被更靠前的区域（如 `body` 兜底区域）覆盖。
-- 15 个预校准区域的顺序已按层叠优先级排列，但如果你自定义了区域，注意后列出的规则会覆盖前面的（同特异性）。
-- 各区域的具体 CSS 选择器可在卡片中查看和编辑。
+- 点面板上的 **🔄 刷新**
+- 或点 DSH 左下角「重载」
+- 或把 Aa 悬浮球收起来再展开（会重建插件）
 
-### 统一颜色/字体勾选了，但随机后没变化？
-- 统一开关 **开启** 时，随机按钮直接改变统一值（统一颜色/字体本身），而不是改变各区域。这是正常行为——关掉统一开关后随机才会分别改各区域。
+### 装了新字体但下拉里没有？
+
+- 桌面端：点 **🔄 刷新** 即可
+- 网页端：按 **F5** 刷新整个页面
+
+### 某区域颜色不对 / 互相串色？
+
+- 检查是否有更宽的选择器（如 body 兜底）覆盖了它
+- 内置 10 个区域的顺序按层叠优先级排列；自定义区域排在后面，同特异性下后列出的规则胜出
+- 用「🖱 高亮」确认该区域实际覆盖了哪些元素
+
+### 统一开关打开后随机没反应？
+
+统一开关开启时，🎲/🎨 改的是**统一值本身**，不是各区域的值。这是设计行为——关掉统一开关才会分别改各区域。
 
 ### 主题保存后找不到？
-- 保存成功会有 toast 提示"已保存：xxx"。主题在下拉框中，选中后点击 **应用** 即可切换。
-- 主题保存在 `localStorage`，升级插件版本也不会丢失。
 
-### 面板字体怎么是楷体，和界面字体不一样？
-- 面板字体固定为楷体（KaiTi），这是有意为之——防止插件自身的 CSS 规则覆盖面板 UI，确保面板始终可读。
+保存成功会有 toast「已保存：xxx」。主题在下拉框里，选中后点「应用」切换。存在 localStorage，升级插件版本也不会丢。
+
+### 面板字体为什么是楷体？
+
+有意为之。固定楷体可以防止插件自身的 CSS 规则反向污染面板 UI，保证面板永远可读。
+
+### 框选出来的区域重启后失效了？
+
+v1.5.2 已修复两个相关问题：
+1. 新增框选区域会导致内置区域全部丢失 → 已改为「内置区域 + 自定义区域」合并读取
+2. 框选区域跨重启失效 → 已改为稳定路径定位 + 自动修复
+
+若仍失效，用「🖱 高亮」看该区域匹配到几个元素；显示「未匹配到任何元素」说明 DSH 前端结构变了，需要重新框选。
 
 ---
 
@@ -234,22 +362,51 @@ No host services, no external dependencies, no build step.
 
 ```
 dsh-font-enhancer/
-├── package.json        # Plugin manifest with dsh.bundle + dsh.client
-├── cordis.patch.yml    # Cordis patch: registers the bundle
+├── package.json          # 插件清单：dsh.bundle + dsh.client
+├── cordis.patch.yml      # Cordis patch：注册 bundle
 ├── lib/
-│   ├── index.js        # Host half (minimal Cordis module)
-│   └── client.js       # Client bundle (all UI + logic, ~1000 lines)
-├── README.md           # This file
-├── LICENSE             # MIT
-└── .gitignore
+│   ├── index.js          # 宿主侧（269 行）：settings API + 字体安装/上传
+│   ├── client.js         # 客户端 bundle（2626 行）：全部 UI 与逻辑
+│   └── fonts/*.ttf       # 内置字体（如 Comic Neue）
+├── locale/
+│   ├── zh.json
+│   └── en.json
+├── docs/images/
+│   └── font-enhancer-panel.png
+├── README.md             # 本文件
+├── README-zh.md / -es.md / -pt.md / -hi.md
+├── CHANGELOG.md
+├── LICENSE               # MIT
+└── icon.svg
 ```
+
+---
+
+## 更新日志 Changelog
+
+### v1.5.2 — 2026-10-19
+
+- **新增**：默认区域扩为 **10 项**，新增「底部对话信息栏」
+- **修复**：新增框选区域后内置区域全部丢失（我自己在修 issue #1 时引入的回归）
+- **修复**：框选区域跨重启失效
+- 详见 [CHANGELOG.md](./CHANGELOG.md)
+
+### v1.3.0
+
+- 网页端 + 桌面端双端可用
+- 一键下载安装可爱字体（带进度）、添加自提供安装包、刷新按钮
+- 保存方案记住统一状态、字重与斜体
+
+### v1.0.0
+
+- 内置区域样式 + 统一控制 + 主题系统
 
 ---
 
 ## 支持 Support
 
-发现 bug 或有功能建议？欢迎在
-[GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues) 提 issue。
+发现 bug 或有功能建议？欢迎提 issue：
+[GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues)
 
 Found a bug or have an idea? Open an issue at
 [GitHub Issues](https://github.com/loyalchiiina/dsh-font-enhancer/issues).

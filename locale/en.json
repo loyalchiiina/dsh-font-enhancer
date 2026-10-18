@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Font Enhancer",
-    "description": "Swap the chat typeface, tune size and line height, and apply a bundled font set without touching DSH stylesheets."
+    "description": "Per-region typography for the DSH UI: 10 built-in regions plus box-select region creation, each with its own Chinese/English font, size, line-height, weight, italic and colour; unified overrides, saved themes, random palettes and one-click cute-font install."
   }
 }

@@ -107,6 +107,73 @@ DSH 的 slot 锚点元素（`[data-slot=...]`）是 `display: contents`，没有
 且控制台无任何报错，极易被误判成「改动没写进去」。
 现在 `apply()` 建 UI 前主动摘掉残留的旧 root 并清空模块级引用。
 
+### 新增：默认区域扩为 10 项 —「底部对话信息栏」
+
+用户实机框选了一个「底部对话信息栏」并确认跨重启可用后，要求把它固化为内置默认项
+（原来只能靠手框，`data-fe-reg` 机制在重装/换包名后仍可能失效）。
+
+**定位依据（真实 DOM 逐层 dump 取证，2026-10-18）**：
+
+```
+conversation.composer.bar
+└─ div:nth-of-type(1)
+   └─ div:nth-of-type(2)
+      ├─ div[data-slot="conversation.composer.dock"]   ← 「28 轮 1650 步·227 tok/s」「293M tok·缓存命中 98%」
+      └─ span                                          ← 右侧百分比「23%」
+```
+
+采用**两个并列选择器**（CSS 里逗号 = OR）：
+
+```js
+'[data-slot="conversation.composer.dock"],
+ [data-slot="conversation.composer.bar"] > div:nth-of-type(1) > div:nth-of-type(2)'
+```
+
+- 第一个是稳定的 `data-slot` 锚点，不受 CSS-Modules re-hash 影响 —— 主锚点。
+- 第二个是外层父节点，把右侧百分比一并纳入 —— 单用 `data-slot` 时它不在范围内
+  （实测 `textContent` 对比：前者尾部是「98%」，后者多一个「23」）。
+- 颜色取深粉 `#FF1493`，分组归「对话区」。
+
+**`SCHEMA_VERSION` 22 → 23**：已装过插件的用户，`regions` 存在于 localStorage 与
+宿主快照里，`loadSettings()` 根本不会读 `DEFAULT_REGIONS()`，不升版本号就永远
+拿不到第 10 项。
+
+### 🔴 修复：版本升级会清空用户的「框选」区域
+
+改上面那次版本号时发现的连带隐患 —— 升级分支原来是：
+
+```js
+var fresh = { regions: DEFAULT_REGIONS(), themes, unified, customFonts, ver };
+//              ^^^^^^^^^^^^^^^^ 用户框选区域在这里全部丢失
+```
+
+注释写的是「keep themes & unified & customFonts」，但 `regions` 直接整份替换，
+意味着**schema 每升一次版本，用户就要重新框选一遍**，属数据丢失级 bug。
+
+现在的口径：
+
+1. 默认项以 `DEFAULT_REGIONS()` 为准；
+2. 用户的「框选」/「自定义」区域**追加**回来；
+3. **同名**（例如用户手框过「底部对话信息栏」，而它现在已是默认项）→ 用
+   **默认项的选择器**（纯 `data-slot`，永不受 re-hash / `data-fe-reg` 重建影响）
+   ＋ **用户的样式设置**（字体/字号/行高/颜色…）。既拿到稳定锚点，又不丢外观；
+4. 其余框选原样保留，不重复 push。
+
+隔离实跑（抽取 `DEFAULT_REGIONS` / `normRegion` 真跑，模拟「ver 22 + 10 区域 +
+一个同名框选 + 一个自框区域」）：
+
+| 断言 | 结果 |
+|---|---|
+| 区域数 = 10 默认 + 1 自框 = 11 | ✅ |
+| 含 `data-fe-reg` 的脏选择器被替换成 `data-slot` | ✅ |
+| 用户颜色 `hsl(254, 90%, 50%)` 保留 | ✅ |
+| 用户自框的其它区域保留 | ✅ |
+| 原 9 个默认项一个不少 | ✅ |
+
+真机探针复核（`SCHEMA_VERSION=23`，10 项）：两个选择器均 `HIT`，
+`font-family=Garamond, "Microsoft YaHei", sans-serif`、`color=rgb(66, 13, 242)`
+（= 用户设的 `hsl(254,90%,50%)`）确实落到元素上，不是只存在于列表里不生效。
+
 ### 验证
 
 - 真机浏览器探针（`console.error` 上报，实测后已全部清除）：

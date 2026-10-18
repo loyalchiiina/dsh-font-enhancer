@@ -1,5 +1,79 @@
 # Changelog
 
+## 1.5.2 — 2026-10-19
+
+### 修复：三条社区 issue（#1 / #2），全部经实机回归验证
+
+**① 桌面端重启后配置全丢（issue #1 问题一，最高优先级）**
+
+DSH 桌面端页面跑在自定义协议 `dsh-app://app`，每次完全重启后 origin 变化，
+而 `localStorage` 按 origin 隔离 → `regions` / `themes` / `unified` 全部归零。
+宿主半其实早已提供 `/dsh-font-enhancer/get` 与 `/set`（写
+`~/.dsh/data/dsh-font-enhancer/settings.json`），但客户端从未调用过。
+
+现在：`saveSettings` 双写（localStorage + 400ms 去抖 POST `/set`）；
+`apply()` 启动时先异步 GET `/get`（上限 1.5s，超时照常启动不卡），
+拿到快照后按 `__savedAt` 比较新旧并合并——主题与自定义字体取并集防丢，
+区域以更晚保存的那份为准。跨重启、跨端口、跨 origin 都不再丢配置。
+
+**② 「👁 范围」对多数区域不可见（issue #1 问题二）**
+
+DSH 的 slot 锚点元素（`[data-slot=...]`）是 `display: contents`，没有盒模型，
+`outline` 画在上面完全不可见，用户误以为描边功能坏了。
+`showScope()` 现在检测 `getComputedStyle(el).display === "contents"`，
+改为描其有盒模型的直接子元素（子元素也全是 contents 时再退一代）。
+
+**③ 有「框选」区域时「自定义」组被静默丢弃（issue #1 问题三）**
+
+`loadSettings()` 旧逻辑：只要存在任意「框选」区域，就
+`filter(group === "框选")`，把用户手动新建的「自定义」组区域一并丢弃，
+随后 `persist()` 将其永久覆盖（无法找回）。
+现在保留「框选」+「自定义」两组，只淘汰内置预设组。
+
+**④ 悬浮球刷新后消失、约 60 秒才出现（issue #2 第一点）**
+
+旧代码只在 `apply()` 里调一次 `feApplyBallVisibility()`，而那时 `buildUI`
+还在等 `DOMContentLoaded` / `document.body` 就绪，球尚未创建 → 该次调用落空，
+只能靠 `feWatchBall()` 的 1s×120 轮询在最多 60 秒后才补上显隐。
+另外 `buildUI()` 在 `document.body` 为空时直接 `return` 且无重试。
+现在：`buildUI()` 加 250ms×40 的短间隔重试；`buildUI()` 挂载完成后立即
+调用一次 `feApplyBallVisibility()`。轮询仅作热重载兜底保留。
+
+**⑤ 对话区字号分级被宿主规则压掉（issue #2 第二点）**
+
+宿主对对话区文字使用带 `!important` 的高特异度规则，本插件原有的
+`sel, sel *, sel text` 特异度不足，同等 `!important` 下比不过 → 字号设置
+在对话区不生效。现在额外生成一条 `:is(sel):is(sel):is(sel)` 三倍特异度规则
+（匹配同一批元素、只带 font-size/line-height，仍全 `!important`），
+稳定压过宿主规则。字体/颜色规则保持原权重不变（避免误伤）。
+
+**⑥ 热重载后新代码完全不生效（本次实测发现，非 issue 报告）**
+
+客户端 bundle 被重新求值（页面刷新 / HMR）时，上一次实例留在 DOM 里的
+`#dsh-fe-root` 不会被自动移除，而 `buildUI()` 开头的「已存在就 return」
+守卫会让新实例永远建不出 UI —— 表现为悬浮球停在旧状态、**新代码一行都不生效**，
+且控制台无任何报错，极易被误判成「改动没写进去」。
+现在 `apply()` 建 UI 前主动摘掉残留的旧 root 并清空模块级引用。
+
+### 验证
+
+- 真机浏览器探针（`console.error` 上报，实测后已全部清除）：
+  - 悬浮球 `ball=true / display=flex / visibility=visible`
+  - 宿主持久化回读 `9regs`（跨重启存活）
+  - 范围描边逐区域落点 `1,526,2,1,1,1,6,2,1`（9 个区域全部真正描到，修复前 8 个为 0）
+  - 字号叠权规则生成 36 处 `:is():is():is(`、18 条 `font-size !important`
+  - `#dsh-fe-root` 数量 = 1（无热重载残留）
+- 真实函数沙箱回归（抽取 `withText` / `boostScope` / `buildRegionCss` 实跑）：
+  `body` 特殊处理保留；`:is()` 三倍叠权输出正确；字号/行高单独成规则。
+- `mergeSnapshot` + `loadSettings` 三场景回归：宿主更新优先 / 本地更新优先 /
+  **有框选时同时保留框选+自定义、淘汰预设**（issue #1 问题三的关键断言）。
+- 回归中发现并修掉一个自引入 bug：`mergeSnapshot` 漏带 `ver` 字段会导致
+  下游版本迁移分支误判，用 `DEFAULT_REGIONS()` 覆盖掉刚恢复的区域。
+- 另修掉一个自引入事故：清理探针时整行匹配误删了 `feLoadHostSettings` 内的
+  `finish()` 定义，导致 `ReferenceError: finish is not defined`、插件完全起不来。
+  现已恢复，并在源码该处留下警示注释。
+
+
 ## 1.5.1 — 2026-10-14
 
 ### 合规性改进（无功能改动）

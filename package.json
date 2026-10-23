@@ -1,7 +1,7 @@
 {
   "name": "dsh-font-enhancer",
-  "version": "1.5.2",
-  "description": "DSH 界面字体全权 DIY：10 个内置区域 + 框选建区，每区域独立设中英文字体/字号/行距/字重/斜体/颜色；全局统一、主题方案保存切换、随机配色、8 款可爱字体一键安装、128 款悬浮球皮肤三球共享。| DIY your DSH UI typography: 10 built-in regions plus box-select region creation, per-region Chinese/English font + size + line-height + weight + italic + colour, unified overrides, saved themes, random palettes, one-click cute-font install, and a 128-skin catalogue shared with two sibling balls.",
+  "version": "1.5.3",
+  "description": "DSH 界面字体全权 DIY：10 个内置区域 + 框选建区，每区域独立设中英文字体/字号/行距/字重/斜体/颜色；全局统一、主题方案保存切换、随机配色、8 款字体一键安装（1 款随包内置 + 7 款联网下载）、128 款悬浮球皮肤三球共享。| DIY your DSH UI typography: 10 built-in regions plus box-select region creation, per-region Chinese/English font + size + line-height + weight + italic + colour, unified overrides, saved themes, random palettes, one-click font install (1 bundled + 7 downloaded on first use), and a 128-skin catalogue shared with two sibling balls.",
   "type": "module",
   "main": "lib/index.js",
   "sideEffects": false,

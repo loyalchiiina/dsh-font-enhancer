@@ -27,7 +27,7 @@ Todas se localizan mediante atributos estables **`data-slot`**, inmunes a los ca
 
 ## Fuentes
 
-- **18 chinas** · **18 inglesas** · **8 instalables con un clic** (LXGW WenKai, Smiley Sans, ZCOOL KuaiLe, Comic Neue, Baloo 2, Fredoka, Nunito, Caveat)
+- **18 chinas** · **18 inglesas** · **8 instalables con un clic** — Comic Neue viene **incluida en el paquete**; las otras 7 se descargan en el primer uso (LXGW WenKai, Smiley Sans, ZCOOL KuaiLe, Baloo 2, Fredoka, Nunito, Caveat)
 - Por defecto: inglés Times New Roman, chino 楷体
 
 ## Skins (128, compartidas por las tres bolas)

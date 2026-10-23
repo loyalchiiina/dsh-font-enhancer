@@ -1,5 +1,74 @@
 # Changelog
 
+## 1.5.3 — 2026-10-23
+
+### 🔴 修复：一键安装的字体从来没生效过（用户实测「装完选了一点变化都没有」）
+
+这是本插件最严重的一个 bug，从第一版就在，且**只靠读代码看不出来**——
+因为每一步都"看起来成功了"：进度条走完、文件确实躺在字体目录里、
+下拉列表里也确实多了一个名字。
+
+**根因：只复制文件，从不注册。** 旧版 installFont 的全部工作就是
+`copyFileSync` / `downloadTo` 把 .ttf 写进
+`%LOCALAPPDATA%\Microsoft\Windows\Fonts`，然后 resolve `{ok:true}`。
+全插件 grep `AddFontResource|reg add|RegSetValue|CurrentVersion\Fonts`
+零命中 —— 既没写 `HKCU\Software\Microsoft\Windows NT\CurrentVersion\Fonts`，
+也没调 `AddFontResourceW`。那个目录只是「用户字体存放处」，
+**不写注册表就等于没有安装**：系统不认、Chromium 也不枚举。
+
+实测铁证（修前）：目录里 `LXGWWenKai-Regular.ttf`（19073964 B）与
+`ZCOOLKuaiLe-Regular.ttf`（1514968 B）早已存在，但
+`System.Drawing.Text.InstalledFontCollection` 共 285 个字体族、
+注册表 HKLM+HKCU Fonts 共 362 项里，`WenKai|Kuai|Baloo|Fredoka|Nunito|Caveat|文楷|得意`
+**全部零命中**。
+
+**修法（两条腿，缺一不可）**
+
+1. **系统侧**：新增 `registerFontWin(filePath, family)` ——
+   先 `reg.exe add HKCU\...\Fonts /v "<Family> (TrueType)" /d <绝对路径>`（免管理员），
+   再经 PowerShell（`-ExecutionPolicy Bypass`，本机禁 .ps1）`Add-Type` 调
+   `AddFontResourceW` 并 `SendMessageTimeoutW(HWND_BROADCAST, WM_FONTCHANGE)`，
+   立即生效、无需重启。安装、重装（already 分支）、上传三条路径全部接上。
+   > 重装分支也要注册，这点很关键：老版本已经把文件下好了，
+   > 若只在「新下载」时注册，那些用户永远修不好。
+2. **页面侧**：新增 `GET /installed-fonts`（返回本机已装字体 + 全部别名）与
+   `GET /user-font?file=xxx.ttf`（直接吐 .ttf 字节）。客户端
+   `feSyncInstalledFonts()` 拉清单后为每个别名生成 `@font-face`
+   注入 `#dsh-fe-fontfaces`。这样即使系统枚举因会话缓存/权限不刷新，
+   CSS 也一定命中真实文件。
+
+顺带把「已装」状态做进 UI：面板里已安装的推荐字体直接显示
+**✅ 已安装** 并禁用按钮，不再让用户对着已装字体反复点「一键安装」。
+
+### 🔴 修复：5 个字体下载地址已 404
+
+| 字体 | 旧地址 | 现状 |
+|---|---|---|
+| Baloo 2 | `.../ofl/baloo2/Baloo2-Regular.ttf` | 404 —— Google Fonts 已改为可变字体 `Baloo2[wght].ttf` |
+| Fredoka | `.../ofl/fredoka/Fredoka-Regular.ttf` | 404 —— 实为 `Fredoka[wdth,wght].ttf` |
+| Nunito | `.../ofl/nunito/Nunito-Regular.ttf` | 404 —— 实为 `Nunito[wght].ttf` |
+| Caveat | `.../ofl/caveat/Caveat-Regular.ttf` | 404 —— 实为 `Caveat[wght].ttf` |
+| Smiley Sans | `.../smiley-sans/releases/download/v2.0.1/SmileySans-Oblique.ttf` | 404 —— 该 release 只发 zip，无散装 ttf |
+
+现在统一改走 jsDelivr 镜像（`cdn.jsdelivr.net/gh/google/fonts@main/...` 与
+`cdn.jsdelivr.net/npm/@fontpkg/smiley-sans@2.0.4/...`），逐个 GET 校验过
+TTF magic `00010000` 与字节数（Baloo2 683200 / Fredoka 159184 /
+Nunito 276932 / Caveat 403648 / SmileySans 2629764）。
+霞鹜文楷保持原 GitHub release 地址（实测 200、19073964 B）。
+
+### ✨ 改进
+
+- 字体目录新增 `family` 字段（真实家族名，从 TTF `name` 表核对），
+  作为注册表值名与 CSS `font-family`；族名写错 = 装了个永远不会被命中的字体。
+- 自备字体上传同样注册进系统，并把别名记入
+  `~/.dsh/data/dsh-font-enhancer/user-fonts.json`，重启后仍可解析。
+- 新增 `/installed-fonts`、`/user-font` 两条路由（共 11 条）。
+
+### 📄 文档
+
+更正「内置 8 款字体」的说法：**随包内置的只有 Comic Neue 一款**（57248 B），
+其余 7 款首次安装时联网下载。README.md / README-zh.md / README-hi.md /
+README-es.md / README-pt.md 与 `package.json`、`locale/*.json` 全部同步。
 ## 1.5.2 — 2026-10-19
 
 ### 🔴 修复：新增框选区域导致内置预设全丢 + 框选区域重启后失效

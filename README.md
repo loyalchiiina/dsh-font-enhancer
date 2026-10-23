@@ -58,7 +58,7 @@ have it survive restarts.**
 | 全局统一 | 「统一颜色」「统一字体」「统一斜体」三个开关，一次设置套用到所有启用区域 |
 | 主题方案 | 把整套配置存成命名方案，随时应用 / 重命名 / 删除 / 清空 |
 | 随机生成 | 🎲 随机字体、🎨 随机配色（黄金角高区分度取色） |
-| 字体安装 | 8 款可爱字体一键下载安装（带实时进度）；也可上传自己的 .ttf/.otf |
+| 字体安装 | 8 款字体一键安装（带实时进度）：**Comic Neue 随包内置**，其余 7 款首次安装时下载；也可上传自己的 .ttf/.otf |
 | 皮肤 | 与 dsh-todo-float-ball / dsh-skill-browser 共享 128 款悬浮球皮肤，三球实时同步 |
 | 持久化 | localStorage 为主、宿主 `settings.json` 为备份，双写回读；跨刷新、跨重启、跨版本升级保留 |
 | 双端 | DSH 网页端（浏览器）与桌面端（Electron）均可用 |
@@ -113,22 +113,24 @@ have it survive restarts.**
 
 ### 5. 字体安装 Font installation
 
-内置 8 款可一键安装的字体（带下载进度条）：
+提供 8 款可一键安装的字体（带下载进度条）。**注意：随安装包内置的只有 Comic Neue 一款**（56 KB，随包分发、离线可用）；其余 7 款首次点「一键安装」时从官方源下载到本机，不占安装包体积：
 
-| 字体 | 类型 |
-|---|---|
-| 霞鹜文楷 LXGW WenKai | 中文手写 |
-| 得意黑 Smiley Sans | 中文动感 |
-| 站酷快乐体 ZCOOL KuaiLe | 中文圆润 |
-| Comic Neue | 英文手写（已内置） |
-| Baloo 2 | 英文圆润 |
-| Fredoka | 英文柔和 |
-| Nunito | 英文圆角 |
-| Caveat | 英文手写 |
+| 字体 | 类型 | 来源 |
+|---|---|---|
+| Comic Neue | 英文手写 | **随包内置**，无需联网 |
+| 霞鹜文楷 LXGW WenKai | 中文手写 | 首次安装时下载（约 19 MB） |
+| 得意黑 Smiley Sans | 中文动感 | 首次安装时下载 |
+| 站酷快乐体 ZCOOL KuaiLe | 中文圆润 | 首次安装时下载（约 1.5 MB） |
+| Baloo 2 | 英文圆润 | 首次安装时下载（可变字体） |
+| Fredoka | 英文柔和 | 首次安装时下载（可变字体） |
+| Nunito | 英文圆角 | 首次安装时下载（可变字体） |
+| Caveat | 英文手写 | 首次安装时下载（可变字体） |
+
+安装会做两件事：把 `.ttf` 复制进 `%LOCALAPPDATA%\Microsoft\Windows\Fonts`（免管理员），并写入 `HKCU\...\CurrentVersion\Fonts` + 调 `AddFontResourceW` 广播 `WM_FONTCHANGE`，让系统其它程序也能用。同时插件会用 `@font-face` 把该文件直接喂给页面，**所以装完立刻生效，不必等系统字体枚举**。
 
 另外支持「📁 添加自提供安装包」：选本地 `.ttf` / `.otf` 文件 → 自动校验 → 安装并加入字体下拉。
 
-装完字体后在网页端需要 **F5 刷新**才能生效（桌面端无需刷新）。
+> v1.5.3 之前：字体只被复制进用户字体目录、**从未写入注册表也从未加载**，所以「装好了但选了一点变化都没有」；且 4 个 Google Fonts 下载地址指向已不存在的 `*-Regular.ttf`（返回 404），得意黑的 release 地址同样失效。
 
 ### 6. 面板 UI Panel UI
 
@@ -215,7 +217,7 @@ have it survive restarts.**
 - **中文字体 18 款**：楷体、微软雅黑、微软雅黑 Light、宋体、黑体、新宋体、仿宋、等线、等线 Light、华文细黑、华文宋体、华文中宋、华文楷体、华文行楷、隶书、幼圆、方正舒体、方正姚体
 - **英文字体 18 款**：Times New Roman、Arial、Calibri、Cambria、Georgia、Verdana、Tahoma、Segoe UI、Garamond、Book Antiqua、Palatino Linotype、Trebuchet MS、Lucida Sans Unicode、Comic Sans MS、Consolas (mono)、Courier New (mono)、Impact、Bahnschrift
 - 列表与 Microsoft Word 对齐，装的字体如果系统已存在会自动复用
-- 一键安装的 8 款字体会追加到下拉列表里
+- 一键安装的 8 款字体（Comic Neue 随包内置，其余 7 款首次安装时下载）会追加到下拉列表里
 - **默认值**：英文 Times New Roman、中文楷体
 
 ---
@@ -290,7 +292,7 @@ dsh plugin --profile desktop add dsh-font-enhancer
 
 **纯客户端插件**，无框架、无构建步骤。
 
-**宿主侧**（`lib/index.js`，269 行）：`inject = ["webServer"]`，注册 9 条 loopback-only 路由：
+**宿主侧**（`lib/index.js`，409 行）：`inject = ["webServer"]`，注册 11 条 loopback-only 路由：
 
 | 路由 | 作用 |
 |---|---|
@@ -299,12 +301,14 @@ dsh plugin --profile desktop add dsh-font-enhancer
 | `/dsh-font-enhancer/set` | 写入 settings.json |
 | `/dsh-font-enhancer/client-alive` | 客户端存活上报 |
 | `/dsh-font-enhancer/log` | 客户端日志落盘 |
-| `/dsh-font-enhancer/fonts/*` | 提供已安装字体文件 |
-| `/dsh-font-enhancer/install-font` | 下载并安装内置字体 |
+| `/dsh-font-enhancer/fonts/*` | 提供随包内置的字体文件 |
+| `/dsh-font-enhancer/install-font` | 下载 + 安装 + 注册一款字体 |
 | `/dsh-font-enhancer/font-progress` | 查询下载进度 |
 | `/dsh-font-enhancer/upload-font` | 接收上传的 .ttf/.otf |
+| `/dsh-font-enhancer/installed-fonts` | 列出本机已装字体（含全部别名），供客户端生成 `@font-face` |
+| `/dsh-font-enhancer/user-font` | 直接吐出已装 .ttf，客户端用它做 `@font-face` 的 `src` |
 
-**客户端**（`lib/client.js`，2626 行，`__ModuleLoader__` bundle）：
+**客户端**（`lib/client.js`，2698 行，`__ModuleLoader__` bundle）：
 
 1. 生成 `<style>` 注入按区域的 CSS 规则
 2. 用原生 DOM 渲染悬浮球与面板（无框架）
@@ -312,6 +316,7 @@ dsh plugin --profile desktop add dsh-font-enhancer
 4. localStorage 与宿主 API 双写
 5. 皮肤：读取共享的 `window.__DSH_BALL_SKINS`，通过 `#dsh-fe-skin-style` 后置 `<style>` 覆盖（每条声明加 `!important` 赢得层叠）
 6. 设置页分区：`ctx.slots.inject("settings.section", ...)` 注册
+7. 已装字体：拉 `/installed-fonts` → 为每个别名胜生成 `@font-face`（`#dsh-fe-fontfaces`）→ 把已装的推荐项标成「✅ 已安装」
 
 **CSS 定位策略**：内置区域**全部用 `data-slot` 稳定属性**，不用 CSS-Modules 哈希类名（如 `.mMKm6W_*`），避免 DSH 升级后失效。
 
@@ -325,10 +330,12 @@ dsh plugin --profile desktop add dsh-font-enhancer
 - 或点 DSH 左下角「重载」
 - 或把 Aa 悬浮球收起来再展开（会重建插件）
 
-### 装了新字体但下拉里没有？
+### 装了新字体但下拉里没有 / 选了没变化？
 
-- 桌面端：点 **🔄 刷新** 即可
-- 网页端：按 **F5** 刷新整个页面
+- 先点面板上的 **🔄 刷新**（会重新拉 `/installed-fonts` 并注入 `@font-face`，一般立刻生效）
+- 桌面端仍不生效：点 DSH 左下角「重载」
+- 网页端（手机/其它电脑浏览器）：装的是**那台电脑**的字体，网页端不会同步；需要在那台机器上装，或按 **F5** 后重试
+- 若 `✅ 已安装` 出现但字形仍是默认字体：多半是文件损坏（下载中断），把 `%LOCALAPPDATA%\Microsoft\Windows\Fonts\<文件名>` 删掉后重装一次
 
 ### 某区域颜色不对 / 互相串色？
 
@@ -365,9 +372,9 @@ dsh-font-enhancer/
 ├── package.json          # 插件清单：dsh.bundle + dsh.client
 ├── cordis.patch.yml      # Cordis patch：注册 bundle
 ├── lib/
-│   ├── index.js          # 宿主侧（269 行）：settings API + 字体安装/上传
-│   ├── client.js         # 客户端 bundle（2626 行）：全部 UI 与逻辑
-│   └── fonts/*.ttf       # 内置字体（如 Comic Neue）
+│   ├── index.js          # 宿主侧（409 行）：settings API + 字体安装/注册/上传
+│   ├── client.js         # 客户端 bundle（2698 行）：全部 UI 与逻辑
+│   └── fonts/ComicNeue.ttf  # 唯一随包内置的字体（其余 7 款按需下载）
 ├── locale/
 │   ├── zh.json
 │   └── en.json
@@ -383,6 +390,14 @@ dsh-font-enhancer/
 ---
 
 ## 更新日志 Changelog
+
+### v1.5.3 — 2026-10-23
+
+- **修复（严重）**：一键安装的字体**从来没有真正生效过**。旧版只把 `.ttf` 复制进 `%LOCALAPPDATA%\Microsoft\Windows\Fonts`，既不写 `HKCU\...\Fonts` 注册表，也不调 `AddFontResourceW` —— 系统与 Chromium 都看不到它。现在安装流程补上「写注册表 → `AddFontResourceW` → 广播 `WM_FONTCHANGE`」，并且客户端额外用 `@font-face` 直接把文件喂给页面（新增 `/installed-fonts`、`/user-font` 两条路由），双保险。
+- **修复**：5 个失效的字体下载地址。Google Fonts 已把 Baloo 2 / Fredoka / Nunito / Caveat 改为可变字体（`Xxx[wght].ttf`），旧的 `*-Regular.ttf` 全部 404；得意黑 release 只发 zip、无散装 ttf。现统一改走 jsDelivr 镜像（含 `@fontpkg/smiley-sans` 的 npm 包），逐个 GET 校验过 TTF magic。
+- **改进**：字体目录新增 `family` 字段（真实家族名，从 TTF `name` 表读出），作为注册表值名与 CSS `font-family`；已装的推荐字体在面板里直接显示「✅ 已安装」并禁用按钮。
+- **改进**：自备字体上传也会被注册进系统，并记录到 `~/.dsh/data/dsh-font-enhancer/user-fonts.json`，重启后别名不丢。
+- **文档**：更正「内置 8 款」的说法 —— 实际随包内置只有 **Comic Neue 一款**，其余 7 款首次安装时联网下载。
 
 ### v1.5.2 — 2026-10-19
 

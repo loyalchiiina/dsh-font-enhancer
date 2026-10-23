@@ -1,6 +1,6 @@
 # dsh-font-enhancer
 
-> 按区域自定义 DSH 界面字体、字号、行距、字重、斜体与文字颜色；支持框选建区、全局统一、主题方案保存切换、随机配色、8 款可爱字体一键安装，并与另外两个悬浮球共享 128 款皮肤。
+> 按区域自定义 DSH 界面字体、字号、行距、字重、斜体与文字颜色；支持框选建区、全局统一、主题方案保存切换、随机配色、8 款字体一键安装（1 款随包内置 + 7 款联网下载），并与另外两个悬浮球共享 128 款皮肤。
 
 > Complete documentation: [English README](./README.md) · [中文速查](./README-zh.md)
 
@@ -27,7 +27,7 @@
 
 ## फ़ॉन्ट सूची
 
-- **18 चीनी** · **18 अंग्रेज़ी** · **8 एक-क्लिक क्यूट फ़ॉन्ट** (LXGW WenKai, Smiley Sans, ZCOOL KuaiLe, Comic Neue, Baloo 2, Fredoka, Nunito, Caveat)
+- **18 चीनी** · **18 अंग्रेज़ी** · **8 एक-क्लिक फ़ॉन्ट** — Comic Neue **पैकेज में शामिल**; बाकी 7 पहली बार इंस्टॉल करते समय डाउनलोड होते हैं (LXGW WenKai, Smiley Sans, ZCOOL KuaiLe, Baloo 2, Fredoka, Nunito, Caveat)
 - डिफ़ॉल्ट: अंग्रेज़ी Times New Roman, चीनी 楷体
 
 ## स्किन (128, तीनों गेंदों में साझा)

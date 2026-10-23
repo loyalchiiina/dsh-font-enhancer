@@ -1,6 +1,6 @@
 # dsh-font-enhancer
 
-> 按区域自定义 DSH 界面字体、字号、行距、字重、斜体与文字颜色；支持框选建区、全局统一、主题方案保存切换、随机配色、8 款可爱字体一键安装，并与另外两个悬浮球共享 128 款皮肤。
+> 按区域自定义 DSH 界面字体、字号、行距、字重、斜体与文字颜色；支持框选建区、全局统一、主题方案保存切换、随机配色、8 款字体一键安装（1 款随包内置 + 7 款联网下载），并与另外两个悬浮球共享 128 款皮肤。
 
 > 本页是中文速查。完整文档（含英文对照、原理、FAQ、文件结构）以 [README.md](./README.md) 为准。
 
@@ -17,7 +17,7 @@
 | 全局统一 | 「统一颜色」「统一字体」「统一斜体」三个开关，一次设置套用到所有启用区域 |
 | 主题方案 | 整套配置存成命名方案，随时应用 / 重命名 / 删除 / 清空 |
 | 随机生成 | 🎲 随机字体、🎨 随机配色（黄金角高区分度取色） |
-| 字体安装 | **8 款**可爱字体一键下载安装（带实时进度）；也可上传自己的 .ttf/.otf |
+| 字体安装 | **8 款**字体一键安装（带实时进度）：**Comic Neue 随包内置**，其余 7 款首次安装时联网下载；也可上传自己的 .ttf/.otf |
 | 皮肤 | 与 dsh-todo-float-ball / dsh-skill-browser 共享 **128 款**悬浮球皮肤，三球实时同步 |
 | 持久化 | localStorage 为主、宿主 `settings.json` 为备份，双写回读；跨刷新 / 跨重启 / 跨版本升级保留 |
 | 双端 | DSH 网页端（浏览器）与桌面端（Electron）均可用 |
@@ -47,7 +47,7 @@
 
 - **中文 18 款**：楷体、微软雅黑、微软雅黑 Light、宋体、黑体、新宋体、仿宋、等线、等线 Light、华文细黑、华文宋体、华文中宋、华文楷体、华文行楷、隶书、幼圆、方正舒体、方正姚体
 - **英文 18 款**：Times New Roman、Arial、Calibri、Cambria、Georgia、Verdana、Tahoma、Segoe UI、Garamond、Book Antiqua、Palatino Linotype、Trebuchet MS、Lucida Sans Unicode、Comic Sans MS、Consolas (mono)、Courier New (mono)、Impact、Bahnschrift
-- **一键安装 8 款**：霞鹜文楷、得意黑、站酷快乐体、Comic Neue、Baloo 2、Fredoka、Nunito、Caveat
+- **一键安装 8 款**：Comic Neue（**随包内置，离线可用**）、霞鹜文楷、得意黑、站酷快乐体、Baloo 2、Fredoka、Nunito、Caveat（后 7 款首次安装时联网下载）
 - **默认**：英文 Times New Roman、中文楷体
 
 ---
@@ -120,7 +120,7 @@ dsh plugin --profile desktop add dsh-font-enhancer
 
 **样式不生效？** 点面板 **🔄 刷新**，或点 DSH「重载」，或把悬浮球收起再展开。
 
-**装了字体下拉里没有？** 桌面端点 🔄 刷新；网页端按 F5。
+**装了字体下拉里没有 / 选了没变化？** 先点面板 **🔄 刷新**（会重新注入 `@font-face`，一般立刻生效）；桌面端仍不行点 DSH「重载」；网页端装的是**那台机器**的字体，换机器需重装。若显示「✅ 已安装」但字形没变，多半是下载中断导致文件损坏，删掉 `%LOCALAPPDATA%\Microsoft\Windows\Fonts\<文件名>` 后重装。
 
 **统一开关开了随机没反应？** 统一开关开启时随机改的是统一值本身，不是各区域——设计行为。
 
@@ -131,6 +131,11 @@ dsh plugin --profile desktop add dsh-font-enhancer
 ---
 
 ## 更新日志
+
+### v1.5.3 — 2026-10-23
+- **修复（严重）**：一键安装的字体从未真正生效 —— 旧版只复制文件，不写注册表、不调 `AddFontResourceW`，系统和 Chromium 都看不到。现已补上注册 + 客户端 `@font-face` 双保险
+- **修复**：5 个失效下载地址（Google Fonts 改为可变字体、得意黑 release 无散装 ttf），统一改走 jsDelivr
+- **文档**：更正「内置 8 款」→ 随包内置仅 **Comic Neue 一款**，其余 7 款联网下载
 
 ### v1.5.2 — 2026-10-19
 - **新增**：默认区域扩为 10 项，新增「底部对话信息栏」

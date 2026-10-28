@@ -56,10 +56,12 @@
 npm install dsh-font-enhancer
 ```
 
-## 要求
+## 适配版本
 
-- DSH >= 0.1.7-rc.1
-- Node.js ^22.19.0 || >= 24.0.0
+- DSH 内核（@deepseek-ai/dsh）：**0.2.1-rc.3**（package.json engines.dsh 已声明 >=0.1.7-rc.1）
+- DSH 桌面端：**2.0.20-next**（DSH NEXT）
+- Node.js：^22.19.0 || >=24.0.0
+- 已在上述版本实测通过；低版本 0.1.7-rc.1 及以上兼容。
 
 ## 多语言 README
 

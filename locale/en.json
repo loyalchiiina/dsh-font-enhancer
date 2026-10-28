@@ -1,6 +1,6 @@
 {
-  "meta": {
-    "title": "Font Enhancer",
-    "description": "Per-region typography for the DSH UI: 10 built-in regions plus box-select region creation, each with its own Chinese/English font, size, line-height, weight, italic and colour; unified overrides, saved themes, random palettes and one-click font install (1 bundled + 7 downloaded on first use)."
-  }
+    "meta":  {
+                 "description":  "Font DIY floating ball for DSH: per-region font/color/size/weight/italic/line-height, unified overrides, saved themes, one-click cute font install, and 130 skins synced across three balls.",
+                 "title":  "Font Enhancer"
+             }
 }

@@ -132,6 +132,11 @@ dsh plugin --profile desktop add dsh-font-enhancer
 
 ## 更新日志
 
+### v1.5.5 — 2026-10-30
+- **修复**：悬浮球光环（rim）不旋转 —— 换肤层的 `transform:none !important` 优先级高于 `@keyframes` 关键帧，把旋转摁死；已删除该声明，与两个技能球同款
+- **修复**：部分皮肤自带的 rim 静态 `transform`（星环、磁悬浮轨道）被加上 `!important` 后把光环压扁斜挂；已让皮肤 rim 模板落空
+- **调整**：面板头部 GitHub Star 图标改为黑白（跟随主题前景色，深色白 / 浅色黑），不再被强调色刷成蓝色
+
 ### v1.5.3 — 2026-10-23
 - **修复（严重）**：一键安装的字体从未真正生效 —— 旧版只复制文件，不写注册表、不调 `AddFontResourceW`，系统和 Chromium 都看不到。现已补上注册 + 客户端 `@font-face` 双保险
 - **修复**：5 个失效下载地址（Google Fonts 改为可变字体、得意黑 release 无散装 ttf），统一改走 jsDelivr

@@ -1,5 +1,46 @@
 # Changelog
 
+## 1.5.5 — 2026-10-30
+
+### 🔴 修复：悬浮球光环（rim）不旋转了
+
+用户反馈「光环不旋转了」，与 `dsh-todo-float-ball` / `dsh-skill-browser` 两个技能球对比后定位到两处同源问题。
+
+**根因一：`transform:none !important` 把动画帧摁死。**
+
+换肤层 `skinBallCss()` 里所有声明都经 `imp()` 统一追加 `!important`，
+conic 兜底环那条规则末尾带了 `transform:none`，于是变成 `transform:none !important`。
+按 CSS 规范，`!important` 的普通声明优先级**高于** `@keyframes` 关键帧里的同名属性，
+所以 `rimSpin` 虽然一直在跑，每帧的 `transform:rotate(...)` 都被这条声明覆盖掉
+→ 视觉上光环停在 0 度不动。
+
+**根因二：皮肤自带的 rim 模板把静态 transform 也变成了 `!important`。**
+
+`skinBallCss()` 把真实 RIM 选择器传给了 `SKIN.fx()`，导致部分皮肤自带的 rim 模板里的
+静态 `transform`（星环 06 `rotate(-16deg) scaleY(.42)`、磁悬浮轨道 18
+`rotateX(66deg) rotate(-18deg)`）同样经 `imp()` 变成 `!important` 落到环带上，
+把光环压扁、斜挂。
+
+**修法**
+
+1. 删掉 conic 兜底环规则末尾的 `transform:none;`，与两个技能球完全同款
+   （`animation:rimSpin 7s linear infinite;pointer-events:none`）。
+2. `SKIN.fx()` 的 `RIM` 参数改传一个不存在的选择器，让皮肤自带的 rim 模板落空，
+   只保留 band / extra 部分，环带旋转不再被皮肤静态样式干扰。
+
+### 🎨 调整：面板头部 GitHub Star 图标改为黑白
+
+星标原本是内联 SVG，`stroke="currentColor"` 配的是主题灰白，但被
+`#dsh-fe-panel a{color:var(--fe-accent)}`（基础层）与同名的 `!important` 规则（换肤层）
+刷成了强调色，默认强调色是蓝的 → 看着是蓝色星星。
+
+新增两条高特异性规则，把它钉回主题前景色 `var(--fe-fg-1)`（深色皮肤下为白、
+浅色皮肤下为黑），悬停也只微亮边框、不再变彩色。
+
+### 兼容性
+
+- 内核声明不变：`engines.dsh >=0.1.7-rc.1`，`engines.node ^22.19.0 || >=24.0.0`。
+- 本次实测环境：DSH 内核 `0.2.1-rc.3`、桌面端 `2.0.20-next`、Node `24.19.0`。
 ## 1.5.3 — 2026-10-23
 
 ### 🔴 修复：一键安装的字体从来没生效过（用户实测「装完选了一点变化都没有」）

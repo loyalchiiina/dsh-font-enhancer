@@ -1,6 +1,6 @@
 {
   "name": "dsh-font-enhancer",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "「字」悬浮球 + 字体DIY面板：每区域独立调字体/颜色/字号/粗细/斜体/行高，全局统一、方案管理、8 款可爱字体一键安装、130 款皮肤三球同步。",
   "type": "module",
   "main": "lib/index.js",
@@ -19,6 +19,8 @@
   "files": [
     "lib",
     "lib/**/*.js",
+    "!lib/**/*.bak*",
+    "!lib/*.skincss.json",
     "lib/fonts/*.ttf",
     "cordis.patch.yml",
     "README.md",

@@ -1,5 +1,10 @@
 # dsh-font-enhancer · 字体DIY悬浮球
 
+> **功能描述**：全局字体 DIY 神器：界面任意位置的字体大小、字重、颜色与字体族都能改，可逐个元素也可整体生效，调完把悬浮球隐藏即可。不用写 CSS、不用重启。适配 DSH 内核 0.2.2-rc.1。
+>
+> **English**: Global font DIY: change size, weight, colour and family at any place in the DSH interface, per element or for the whole window, then hide the floating ball when you are done. No CSS writing and no restart. Adapts DSH kernel 0.2.2-rc.1.
+
+
 > DeepSeek Harness（DSH）插件：右下角一颗「字」悬浮球，点开字体 DIY 面板，整站字体 / 颜色 / 字号随你调。
 
 ![字体DIY悬浮球 + 面板全貌](docs/images/ball-and-panel.png)

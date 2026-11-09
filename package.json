@@ -33,7 +33,8 @@
     "README-es.md",
     "README-pt.md",
     "README-hi.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "screenshots.json"
   ],
   "license": "MIT",
   "keywords": [

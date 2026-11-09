@@ -4,3 +4,4 @@ node_modules/
 *.bak
 *.bak-*
 lib/client.js.skincss.json
+.agents/

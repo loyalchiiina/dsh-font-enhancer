@@ -1,3 +1,9 @@
+## 1.5.16 — 2026-11-26
+
+性能：删除 5s 空转定时器
+
+- `lib/client.js` 原 `setInterval(feApplyRecBadges, 5000)` 删除，改为在设置分区注册成功后 `setTimeout(feApplyRecBadges, 1500)` 注一次；`feMarkRecBadge` 对已插入的行本就提前 return，原定时器不是刷新而是每 5s 空跑一批 DOM 查询。
+
 # Changelog
 
 
